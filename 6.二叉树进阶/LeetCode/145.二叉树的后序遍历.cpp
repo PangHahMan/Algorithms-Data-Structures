@@ -12,59 +12,62 @@ struct TreeNode
 #include <stack>
 using namespace std;
 
-// 思路：左路节点入栈，然后访问左路节点的右子树
+// 非递归写法
+// 后序是先走左子树，右子树，根。我们可以先走根，右子树，左子树，在逆置一下
 class Solution
 {
 public:
-    vector<int> inorderTraversal(TreeNode *root)
+    vector<int> postorderTraversal(TreeNode *root)
     {
-        stack<TreeNode *> st;
         vector<int> v;
+        stack<TreeNode *> st;
         TreeNode *cur = root;
-        while (1)
+        if (root == nullptr)
         {
-            if (cur == nullptr && st.empty())
-            {
-                break;
-            }
-            // 先左子树入栈，入栈完了在取栈顶入vector，前序是边遍历左子树边入vector
+            return v;
+        }
+
+        while (cur || !st.empty())
+        {
             while (cur)
             {
+                v.push_back(cur->val);
                 st.push(cur);
-                cur = cur->left;
+                cur = cur->right;
             }
-            // 取栈顶，然后放到vector里，然后带右子树
+
             TreeNode *top = st.top();
             st.pop();
-            v.push_back(top->val);
 
-            // 右孩子
-            cur = top->right;
+            cur = top->left;
         }
+        reverse(v.begin(), v.end());
         return v;
     }
 };
 
-/* 递归方式
+/* 递归写法
 class Solution
 {
 public:
-    TreeNode *_inorder(vector<int> &v, TreeNode *root)
+    TreeNode *_postorder(vector<int> &v, TreeNode *root)
     {
         if (root == nullptr)
+        {
             return nullptr;
+        }
 
-        root->left = _inorder(v, root->left);
+        root->left = _postorder(v, root->left);
+        root->right = _postorder(v, root->right);
         v.push_back(root->val);
-        root->right = _inorder(v, root->right);
-
         return root;
     }
 
-    vector<int> inorderTraversal(TreeNode *root)
+    vector<int> postorderTraversal(TreeNode *root)
     {
         vector<int> v;
-        _inorder(v, root);
+        _postorder(v, root);
         return v;
     }
-}; */
+};
+*/
