@@ -99,21 +99,102 @@ public:
                 parent = parent->_parent;
                 cur = cur->_parent;
             }
-            else if (parent->bf == 2 || parent->_bf == -2)
-            {
-                // 需要旋转处理
-            }
             else if (parent->_bf == 0)
             {
                 // 平衡，不需要处理
                 break;
             }
-            else
+            else if (parent->bf == 2 || parent->_bf == -2)
             {
-                assert(false);
+                // 需要旋转处理
+                // 当parent->bf == 2 && cur->bf == 1 右边高，需要左单旋
+                if (parent->_bf == 2 && cur->_bf == 1)
+                {
+                    RoateLeft(parent);
+                }
+                else if (parent->_bf == -2 && cur->_bf == -1)
+                {
+                    RotateRight(parent);
+                }
+                break;
             }
+
         }
         return true;
+    }
+
+private:
+    // 左单旋
+    void RoateLeft(Node *parent)
+    {
+        Node *subR = parent->_right; // 要旋转的parent的右子树
+        Node *subRL = SubR->_left;   // 子树的左子树
+
+        // 旋转链接
+        parent->_right = subRL;
+        if (subRL)
+            subRL->_parent = parent;
+
+        // 需要记录要旋转的树还有没有父亲
+        Node *ppnode = parent->_parent;
+        subR->_left = parent;
+        parent->_parent = subR;
+
+        // 如果ppnode为nullptr，说明parent一开始为根，旋转后subR为根
+        if (ppnode == nullptr)
+        {
+            // 更新根节点
+            _root = subR;
+            _root->_parent = nullptr;
+        }
+        else
+        {
+            if (ppnode->left = parent)
+            {
+                ppnode->left = subR;
+            }
+            else
+            {
+                ppnode->_right = subR;
+            }
+            subR->_parent = ppnode;
+        }
+        // 更新平衡因子
+        parent->_bf = subR->_bf = 0;
+    }
+    // 右单旋
+    void RotateRight(Node *parent)
+    {
+        Node *subL = parent->left;
+        Node *subLR = subL->_right;
+
+        parent->_left = subLR;
+        if (subLR)
+            subLR->_parent = parent;
+
+        Node *ppnode = parent->_parent;
+
+        subL->_right = parent;
+        parent->_parent = subL;
+
+        if (ppnode == nullptr)
+        {
+            _root = subL;
+            _root->_parent = nullptr;
+        }
+        else
+        {
+            if (ppnode->_left = parent)
+            {
+                ppnode->_left = subL;
+            }
+            else
+            {
+                ppnode->_right = subL;
+            }
+            subL->_parent = ppnode;
+        }
+        parent->_bf = subL->_bf = 0;
     }
 
 private:
