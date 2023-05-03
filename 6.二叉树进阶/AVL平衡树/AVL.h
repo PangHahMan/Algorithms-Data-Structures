@@ -108,6 +108,8 @@ public:
             {
                 // 需要旋转处理
                 // 当parent->bf == 2 && cur->bf == 1 右边高，需要左单旋
+                // 当parent->_bf == -2 && cur->_bf == -1 左边高，需要右单旋
+                // 当parent->_bf == -2 && cur->_bf == 1 左边高，
                 if (parent->_bf == 2 && cur->_bf == 1)
                 {
                     RoateLeft(parent);
@@ -115,6 +117,14 @@ public:
                 else if (parent->_bf == -2 && cur->_bf == -1)
                 {
                     RotateRight(parent);
+                }
+                else if (parent->_bf == -2 && cur->_bf == 1)
+                {
+                    RotateLR(parent);
+                }
+                else if (parent->_bf == 2 && cur->_bf == -1)
+                {
+                    RotateRL(parent);
                 }
                 break;
             }
@@ -196,7 +206,7 @@ private:
         parent->_bf = subL->_bf = 0;
     }
     // 双旋(左右旋转)
-    void Rotate(Node *parent)
+    void RotateLR(Node *parent)
     {
         Node *subL = parent->_left;
         Node *subLR = subL->_right;
