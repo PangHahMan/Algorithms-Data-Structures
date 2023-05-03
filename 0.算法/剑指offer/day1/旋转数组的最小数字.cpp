@@ -102,6 +102,10 @@ public:
     int minNumberInRotateArray(vector<int> rotateArray)
     {
         int left = 0, right = rotateArray.size() - 1;
+        if(rotateArray[left]<rotateArray[right])
+        {
+            return rotateArray[left];
+        }
         while (left < right)
         {
             int mid = left + (right - left) / 2; // 取中间值
@@ -109,8 +113,6 @@ public:
                 left = mid + 1; // 搜索右边
             else if (rotateArray[mid] < rotateArray[right])
                 right = mid; // 搜索左边
-            else
-                right -= 1;
         }
         return rotateArray[left];
     }
