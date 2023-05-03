@@ -118,7 +118,6 @@ public:
                 }
                 break;
             }
-
         }
         return true;
     }
@@ -195,6 +194,39 @@ private:
             subL->_parent = ppnode;
         }
         parent->_bf = subL->_bf = 0;
+    }
+    // 双旋(左右旋转)
+    void Rotate(Node *parent)
+    {
+        Node *subL = parent->_left;
+        Node *subLR = subL->_right;
+        int bf = subLR->_bf;
+
+        RoateLeft(parent->_left);
+        RotateRight(parent);
+
+        if (bf == 1)
+        {
+            parent->_bf = 0;
+            subLR->_bf = 0;
+            subL->_bf = -1;
+        }
+        else if (bf == -1)
+        {
+            parent->_bf = 1;
+            subLR->_bf = 0;
+            subL->_bf = 0;
+        }
+        else if (bf == 0)
+        {
+            parent->_bf = 0;
+            subLR->_bf = 0;
+            subL->_bf = 0;
+        }
+        else
+        {
+            assert(false);
+        }
     }
 
 private:
