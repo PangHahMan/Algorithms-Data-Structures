@@ -2,6 +2,7 @@
 #include <vector>
 using namespace std;
 
+//插入排序的思想：遇到奇数就
 class Solution
 {
 public:
