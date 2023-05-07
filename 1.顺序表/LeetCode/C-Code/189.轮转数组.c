@@ -1,27 +1,28 @@
-// LeetCode 189.ÂÖ×ªÊý×é
-// ¸øÄãÒ»¸öÊý×é£¬½«Êý×éÖÐµÄÔªËØÏòÓÒÂÖ×ª k ¸öÎ»ÖÃ£¬ÆäÖÐ k ÊÇ·Ç¸ºÊý¡£
+// LeetCode 189.ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½é£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ª k ï¿½ï¿½Î»ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ k ï¿½Ç·Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½
 /*
-Ê¾Àý 1:
-ÊäÈë: nums = [1,2,3,4,5,6,7], k = 3
-Êä³ö: [5,6,7,1,2,3,4]
-½âÊÍ:
-ÏòÓÒÂÖ×ª 1 ²½: [7,1,2,3,4,5,6]
-ÏòÓÒÂÖ×ª 2 ²½: [6,7,1,2,3,4,5]
-ÏòÓÒÂÖ×ª 3 ²½: [5,6,7,1,2,3,4]
+Ê¾ï¿½ï¿½ 1:
+ï¿½ï¿½ï¿½ï¿½: nums = [1,2,3,4,5,6,7], k = 3
+ï¿½ï¿½ï¿½: [5,6,7,1,2,3,4]
+ï¿½ï¿½ï¿½ï¿½:
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ª 1 ï¿½ï¿½: [7,1,2,3,4,5,6]
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ª 2 ï¿½ï¿½: [6,7,1,2,3,4,5]
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ª 3 ï¿½ï¿½: [5,6,7,1,2,3,4]
 */
 #include <stdlib.h>
 
-/* ·½·¨Ò»£ºÊ¹ÓÃ¶îÍâµÄÊý×é
+
+/* ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ê¹ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void rotate(int *nums, int numsSize, int k)
 {
-    // ¿ª±ÙÐÂÊý×é
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     int *newArr = (int *)malloc(sizeof(int) * numsSize);
-    // ½«Ô­Êý×éµÄÖµ¸³Öµµ½ÐÂÊý×éµÚk¸öÎ»ÖÃ£¬(i+k)%numsSizeÈÃÊý×éÐÎ³É»·ÐÎ
+    // ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½kï¿½ï¿½Î»ï¿½Ã£ï¿½(i+k)%numsSizeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î³É»ï¿½ï¿½ï¿½
     for (int i = 0; i < numsSize; ++i)
     {
         newArr[(i + k) % numsSize] = nums[i];
     }
-    // ×îºó½«¿ª±ÙµÄÊý×éÔÚÖØÐÂ¿½±´»ØÀ´
+    // ï¿½ï¿½ó½«¿ï¿½ï¿½Ùµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     for (int i = 0; i < numsSize; ++i)
     {
         nums[i] = newArr[i];
@@ -31,7 +32,7 @@ void rotate(int *nums, int numsSize, int k)
 
 void reverse(int *a, int left, int right)
 {
-    // ÄæÖÃ½»»»
+    // ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½
     while (left < right)
     {
         int tmp = a[left];
@@ -44,14 +45,14 @@ void reverse(int *a, int left, int right)
 
 void rotate(int *nums, int numsSize, int k)
 {
-    // Èý´ÎÄæÖÃ·¨
-    // ÖØÖÃK£¬·ÀÖ¹kÔ½½ç ³¬¹ýnumsSize
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½
+    // ï¿½ï¿½ï¿½ï¿½Kï¿½ï¿½ï¿½ï¿½Ö¹kÔ½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½numsSize
     k %= numsSize;
-    // 1.ÕûÌåÄæÖÃ
+    // 1.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     reverse(nums, 0, numsSize - 1);
-    // 2.Ç°k¸öÄæÖÃ
+    // 2.Ç°kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     reverse(nums, 0, k - 1);
-    // 3.ºók¸öÄæÖÃ
+    // 3.ï¿½ï¿½kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     reverse(nums, k, numsSize - 1);
 }
 
