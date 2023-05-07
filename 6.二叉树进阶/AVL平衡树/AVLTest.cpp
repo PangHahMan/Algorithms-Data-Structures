@@ -33,7 +33,7 @@ void Test_AVLTree2()
 		size_t x = rand();
 		t.Insert(make_pair(x, x));
 	}
-	// t.InOrder();
+	t.InOrder();
 	cout << t.IsBalanace() << endl;
 }
 
