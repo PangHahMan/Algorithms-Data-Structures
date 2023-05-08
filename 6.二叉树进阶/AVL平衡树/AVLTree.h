@@ -143,6 +143,11 @@ public:
 		return _IsBalanace(this->_root);
 	}
 
+	int Height()
+	{
+		return _Height(this->_root);
+	}
+
 private:
 	int _Height(Node *root)
 	{

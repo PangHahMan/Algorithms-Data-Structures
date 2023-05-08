@@ -1,12 +1,12 @@
 #include <iostream>
-#include <stdlib.h>
-#include <time.h>
+#include <cstdlib>
+#include <ctime>
 #include "AVLTree.h"
 using namespace std;
 
 void Test_AVLTree1()
 {
-	int a[] = {4, 2, 6, 1, 3, 5, 15, 7, 16, 14};
+	int a[] = { 4, 2, 6, 1, 3, 5, 15, 7, 16, 14 };
 	AVLTree<int, int> t1;
 	for (auto e : a)
 	{
@@ -21,20 +21,21 @@ void Test_AVLTree1()
 	}
 	t1.InOrder();
 	cout << t1.IsBalanace() << endl;
-};
+}
 
 void Test_AVLTree2()
 {
-	srand(time(0));
-	const size_t n = 100000;
+	srand(time(nullptr));
+	const size_t n = 1000000;
 	AVLTree<int, int> t;
 	for (size_t i = 0; i < n; i++)
 	{
 		size_t x = rand();
 		t.Insert(make_pair(x, x));
 	}
-	t.InOrder();
+	//t.InOrder();
 	cout << t.IsBalanace() << endl;
+	cout << t.Height() << endl;
 }
 
 int main()
