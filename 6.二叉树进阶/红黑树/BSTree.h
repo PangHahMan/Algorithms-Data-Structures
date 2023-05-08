@@ -19,8 +19,9 @@ struct RBTreeNode
 	RBTreeNode<K, V>* _parent;
 	pair<K, V> _kv;
 	Colour _col;
-
-	RBTreeNode(const pair<K, V>& kv)
+    //在单参数构造函数中使用 explicit 关键字是一种好的编程习惯，可以提高代码的可读性和健壮性。
+	//加上 explicit 关键字，以避免出现不必要的隐式类型转换。如果没有加上 explicit 关键字，那么可以使用该构造函数创建一个 RBTreeNode 对象时，会发生隐式类型转换，将一个 pair<K, V> 类型的对象转换为 RBTreeNode 对象，这可能导致程序行为出现意外的结果。
+	explicit RBTreeNode(const pair<K, V>& kv)
 		: _left(nullptr), _right(nullptr), _parent(nullptr), _kv(kv), _col(RED)
 	{
 	}
