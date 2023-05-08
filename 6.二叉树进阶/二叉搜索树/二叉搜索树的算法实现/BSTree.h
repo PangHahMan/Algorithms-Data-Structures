@@ -3,7 +3,7 @@
 using namespace std;
 
 template <class K>
-// ¶ş²æÊ÷µÄ½á¹¹
+// äºŒå‰æ ‘çš„ç»“æ„
 struct BSTreeNode
 {
     BSTreeNode<K>* _left;
@@ -22,7 +22,7 @@ class BSTree
     typedef BSTreeNode<K> Node;
 
 public:
-    BSTree() = default;  //Ö¸¶¨Ç¿ÖÆÉú³ÉÄ¬ÈÏ¹¹Ôì
+    BSTree() = default;  //æŒ‡å®šå¼ºåˆ¶ç”Ÿæˆé»˜è®¤æ„é€ 
    
     BSTree(const BSTree<K>& t)
     {
@@ -42,15 +42,15 @@ public:
 
     bool Insert(const K& key)
     {
-        // Èç¹û¸ùÒ»¿ªÊ¼¾ÍÎªnullptr£¬ÄÇÃ´¾ÍÖ±½Ó¹¹½¨³õÊ¼µÄ¸ù
+        // å¦‚æœæ ¹ä¸€å¼€å§‹å°±ä¸ºnullptrï¼Œé‚£ä¹ˆå°±ç›´æ¥æ„å»ºåˆå§‹çš„æ ¹
         if (_root == nullptr)
         {
             _root = new Node(key);
             return true;
         }
 
-        // Èç¹û_root²»Îªnullptr£¬ÄÇÃ´¾Í´Ó¸ù¿ªÊ¼±éÀú£¬ÕÒÊÊºÏµÄÎ»ÖÃ
-        Node* parent = nullptr; // parent¸ú×Åcur±éÀúÕÒµ½ºÏÊÊµÄÎ»ÖÃ£¬³äµ±²åÈëµÄ¸¸Ç×½Úµã
+        // å¦‚æœ_rootä¸ä¸ºnullptrï¼Œé‚£ä¹ˆå°±ä»æ ¹å¼€å§‹éå†ï¼Œæ‰¾é€‚åˆçš„ä½ç½®
+        Node* parent = nullptr; // parentè·Ÿç€curéå†æ‰¾åˆ°åˆé€‚çš„ä½ç½®ï¼Œå……å½“æ’å…¥çš„çˆ¶äº²èŠ‚ç‚¹
         Node* cur = _root;
         while (cur)
         {
@@ -64,14 +64,14 @@ public:
                 parent = cur;
                 cur = cur->_right;
             }
-            else // Èç¹ûkey == cur->_key  ÄÇÃ´¾ÍÖ±½Ó·µ»Øfalse£¬¶ş²æËÑË÷Ê÷µÄÖµ²»ÔÊĞíÏàÍ¬
+            else // å¦‚æœkey == cur->_key  é‚£ä¹ˆå°±ç›´æ¥è¿”å›falseï¼ŒäºŒå‰æœç´¢æ ‘çš„å€¼ä¸å…è®¸ç›¸åŒ
             {
                 return false;
             }
         }
-        // ÕÒµ½ºó¾Í¿ªÊ¼Á´½Ó
+        // æ‰¾åˆ°åå°±å¼€å§‹é“¾æ¥
         cur = new Node(key);
-        // ÕâÀï²»ÖªµÀcur×îÖÕ×ßµ½ÁËparentµÄ×ó±ß»¹ÊÇÓÒ±ß£¬ËùÒÔ»¹Òª½øĞĞÅĞ¶Ï
+        // è¿™é‡Œä¸çŸ¥é“curæœ€ç»ˆèµ°åˆ°äº†parentçš„å·¦è¾¹è¿˜æ˜¯å³è¾¹ï¼Œæ‰€ä»¥è¿˜è¦è¿›è¡Œåˆ¤æ–­
         if (key > parent->_key)
         {
             parent->_right = cur;
@@ -83,7 +83,7 @@ public:
         return true;
     }
 
-    // ²éÕÒ
+    // æŸ¥æ‰¾
     bool Find(const K& key)
     {
         Node* cur = _root;
@@ -105,7 +105,7 @@ public:
         return false;
     }
 
-    // É¾³ı
+    // åˆ é™¤
     bool Erase(const K& key)
     {
         Node* parent = nullptr;
@@ -124,9 +124,9 @@ public:
             }
             else
             {
-                // ¿ªÊ¼É¾³ı
-                // 1.Èç¹ûÒªÉ¾³ıµÄcur×ó±ßÊÇnullptr£¬ÄÇÃ´ÎÒÃÇ¾Í½øĞĞÅĞ¶Ï£¬ÅĞ¶ÏcurÔÚparentµÄ×ó×ÓÊ÷»¹ÊÇÓÒ×ÓÊ÷£¬
-                // Èç¹ûÊÇ×ó×ÓÊ÷£¬ÄÇÃ´¾ÍÓÉparentµÄleftÖ¸ÏòcurµÄÓÒ×ÓÊ÷£¬Èç¹ûÊÇÓÒ×ÓÊ÷£¬¾ÍÓÉparentµÄrightÖ¸ÏòcurµÄÓÒ×ÓÊ÷
+                // å¼€å§‹åˆ é™¤
+                // 1.å¦‚æœè¦åˆ é™¤çš„curå·¦è¾¹æ˜¯nullptrï¼Œé‚£ä¹ˆæˆ‘ä»¬å°±è¿›è¡Œåˆ¤æ–­ï¼Œåˆ¤æ–­curåœ¨parentçš„å·¦å­æ ‘è¿˜æ˜¯å³å­æ ‘ï¼Œ
+                // å¦‚æœæ˜¯å·¦å­æ ‘ï¼Œé‚£ä¹ˆå°±ç”±parentçš„leftæŒ‡å‘curçš„å³å­æ ‘ï¼Œå¦‚æœæ˜¯å³å­æ ‘ï¼Œå°±ç”±parentçš„rightæŒ‡å‘curçš„å³å­æ ‘
                 if (cur->_left == nullptr)
                 {
                     // if (parent == nullptr)
@@ -147,7 +147,7 @@ public:
                     }
 
                     delete cur;
-                } // 2.curµÄÓÒ±ßÎªnullptr
+                } // 2.curçš„å³è¾¹ä¸ºnullptr
                 else if (cur->_right == nullptr)
                 {
                     // if (parent == nullptr)
@@ -169,27 +169,27 @@ public:
 
                     delete cur;
                 }
-                else // ¶¼²»Îªnullptr,Ìæ´ú·¨£¬ÓÃ±»É¾³ıµÄcurµÄ×ó×ÓÊ÷µÄ×î´ó½Úµã£¬ÓÒ×ÓÊ÷µÄ×î´ó½ÚµãÌæ»»
+                else // éƒ½ä¸ä¸ºnullptr,æ›¿ä»£æ³•ï¼Œç”¨è¢«åˆ é™¤çš„curçš„å·¦å­æ ‘çš„æœ€å¤§èŠ‚ç‚¹ï¼Œå³å­æ ‘çš„æœ€å¤§èŠ‚ç‚¹æ›¿æ¢
                 {
-                    // ÕÒcurÓÒ×ÓÊ÷µÄ×î´ó½Úµã
+                    // æ‰¾curå³å­æ ‘çš„æœ€å¤§èŠ‚ç‚¹
                     Node* pminRight = cur;
                     Node* minRight = cur->_right;
-                    // ÕÒÓÒ×ÓÊ÷£¬ÓÒ×ÓÊ÷µÄ×îĞ¡Î»ÖÃÔÚÓÒ×ÓÊ÷µÄ×ó±ß
+                    // æ‰¾å³å­æ ‘ï¼Œå³å­æ ‘çš„æœ€å°ä½ç½®åœ¨å³å­æ ‘çš„å·¦è¾¹
                     while (minRight->_left)
                     {
                         pminRight = minRight;
                         minRight = minRight->_left;
                     }
-                    // ÕÒµ½×îĞ¡µÄÖµ¸³Öµ¸øcur
+                    // æ‰¾åˆ°æœ€å°çš„å€¼èµ‹å€¼ç»™cur
                     cur->_key = minRight->_key;
 
-                    // pminRight->_left==minRight ÄÇÃ´×ó±ßÒÑ¾­ÊÇ×îĞ¡ÁË£¬ËùÒÔminRightµÄ×ó×ÓÊ÷¿Ï¶¨Îª¿ÕÁË
-                    // ÄÇÃ´¿ÉÄÜminRight»¹ÓĞÓÒ×ÓÊ÷£¬ËùÒÔĞèÒªpinRightÀ´ÁìÑø
+                    // pminRight->_left==minRight é‚£ä¹ˆå·¦è¾¹å·²ç»æ˜¯æœ€å°äº†ï¼Œæ‰€ä»¥minRightçš„å·¦å­æ ‘è‚¯å®šä¸ºç©ºäº†
+                    // é‚£ä¹ˆå¯èƒ½minRightè¿˜æœ‰å³å­æ ‘ï¼Œæ‰€ä»¥éœ€è¦pinRightæ¥é¢†å…»
                     if (pminRight->_left == minRight)
                     {
                         pminRight->_left = minRight->_right;
                     }
-                    else // Èç¹û²»ÊÇ£¬±ÈÈçÉ¾³ı¸ù½Úµã£¬ÄÇÃ´¾ÍĞèÒª½«pminRight->_rightÖ¸ÏòminRight->right(×îĞ¡Öµ×ó±ßÒ»¶¨ÎªNULL¡£²»ĞèÒªÁìÑø)
+                    else // å¦‚æœä¸æ˜¯ï¼Œæ¯”å¦‚åˆ é™¤æ ¹èŠ‚ç‚¹ï¼Œé‚£ä¹ˆå°±éœ€è¦å°†pminRight->_rightæŒ‡å‘minRight->right(æœ€å°å€¼å·¦è¾¹ä¸€å®šä¸ºNULLã€‚ä¸éœ€è¦é¢†å…»)
                     {
                         pminRight->_right = minRight->_right;
                     }
@@ -286,10 +286,10 @@ public:
         else
         {
             Node* del = root;
-            //¿ªÊ¼×¼±¸É¾³ı£¬rootË­ÉÏ²ãroot->_left/_rightµÄÒıÓÃ
+            //å¼€å§‹å‡†å¤‡åˆ é™¤ï¼Œrootè°ä¸Šå±‚root->_left/_rightçš„å¼•ç”¨
             if (root->_right == nullptr)
             {
-                //ÉÏ²ãµÄ×óÓÒÖ¸Ïòµ±Ç°²ãµÄ×óÓÒ
+                //ä¸Šå±‚çš„å·¦å³æŒ‡å‘å½“å‰å±‚çš„å·¦å³
                 root = root->_left;
             }
             else if (root->_left == nullptr)
@@ -299,7 +299,7 @@ public:
             else
             {
                 Node* maxleft = root->_left;
-                //ÕÒ×î´ó£¬×î´óÔÚÓÒ±ß
+                //æ‰¾æœ€å¤§ï¼Œæœ€å¤§åœ¨å³è¾¹
                 while (maxleft->_right)
                 {
                     maxleft = maxleft->_right;
@@ -307,8 +307,8 @@ public:
 
                 swap(root->_key,maxleft->_key);
 
-                //×ª»»ÔÚ×ÓÊ÷È¥É¾³ı
-                //ÕâÀï²»ÄÜ´«maxleft£¬maxleftÊÇ¾Ö²¿±äÁ¿
+                //è½¬æ¢åœ¨å­æ ‘å»åˆ é™¤
+                //è¿™é‡Œä¸èƒ½ä¼ maxleftï¼Œmaxleftæ˜¯å±€éƒ¨å˜é‡
                 return _EraseR(root->_left, key);
             }
             delete del;
@@ -320,7 +320,7 @@ public:
     {
         return _EraseR(_root, key);
     }
-    // Ò»°ãµ÷ÓÃÎªt.InOrder()  ²»´«²ÎÊı£¬ËùÒÔÕâÀï½øĞĞÁË·â×°
+    // ä¸€èˆ¬è°ƒç”¨ä¸ºt.InOrder()  ä¸ä¼ å‚æ•°ï¼Œæ‰€ä»¥è¿™é‡Œè¿›è¡Œäº†å°è£…
     void InOrder()
     {
         _InOrder(_root);
@@ -338,5 +338,5 @@ protected:
     }
 
 private:
-    Node* _root = nullptr; // ¶ş²æËÑË÷Ê÷µÄ¸ù
+    Node* _root = nullptr; // äºŒå‰æœç´¢æ ‘çš„æ ¹
 };
