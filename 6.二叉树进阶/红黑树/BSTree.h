@@ -279,11 +279,6 @@ private:
 		return _check(root->_left, BlackNum, benchmark) && _check(root->_right, BlackNum, benchmark);
 	}
 
-	bool IsBalance(Node* root)
-	{
-
-	}
-
 	void InOrder(Node* root)
 	{
 		if (root == nullptr)
