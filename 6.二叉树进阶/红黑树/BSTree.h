@@ -30,8 +30,36 @@ struct RBTreeNode
 template<class K, class V>
 class RBTree
 {
-public:
 	typedef RBTreeNode<K, V> Node;
+public:
+	//析构函数
+	~RBTree()
+	{
+		Destroy(this->_root);
+		this->_root = nullptr;
+	}
+
+	Node* find(const K& key)
+	{
+		Node* cur = this->_root;
+		while(cur)
+		{
+			if(key>cur->_kv.first)
+			{
+				cur = cur->_right;
+			}
+			else if(key<cur->_kv.first)
+			{
+				cur = cur->_left;
+			}
+			else
+			{
+				return cur;
+			}
+		}
+		return nullptr;
+	}
+
 	bool Insert(const pair<K, V>& kv)
 	{
 		if (_root == nullptr)
@@ -199,6 +227,18 @@ public:
 		return Height(this->_root);
 	}
 private:
+	void Destroy(Node* root)
+	{
+		if(root== nullptr)
+		{
+			return;
+		}
+		//后序销毁
+		Destroy(root->_left);
+		Destroy(root->_right);
+		delete root;
+	}
+
 	int Height(Node* root)
 	{
 		if (root == nullptr)
