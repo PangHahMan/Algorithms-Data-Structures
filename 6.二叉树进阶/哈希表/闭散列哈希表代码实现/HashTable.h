@@ -1,129 +1,146 @@
 #pragma once
 
-#include<vector>
-#include<iostream>
+#include <vector>
+#include <iostream>
 using namespace std;
-//±ÕÉ¢ÁĞ¹şÏ£±í
+// é—­æ•£åˆ—å“ˆå¸Œè¡¨
 
-enum State {
-    EMPTY,   //¹şÏ£±íÎ»ÖÃÎªNULL
-    EXITS,   //¹şÏ£±íÎ»ÖÃÓĞÖµÁË
-    DELETE   //¹şÏ£±íÎ»ÖÃÎªÉ¾³ı±êÖ¾
+enum State
+{
+	EMPTY, // å“ˆå¸Œè¡¨ä½ç½®ä¸ºNULL
+	EXITS, // å“ˆå¸Œè¡¨ä½ç½®æœ‰å€¼äº†
+	DELETE // å“ˆå¸Œè¡¨ä½ç½®ä¸ºåˆ é™¤æ ‡å¿—
 };
 
-template<class K, class V>
-struct HashData {
-    pair <K, V> _kv;
-    State _state = EMPTY;
+template <class K, class V>
+struct HashData
+{
+	pair<K, V> _kv;
+	State _state = EMPTY;
 };
 
-template<class K, class V>
-class HashTable {
+template <class K, class V>
+class HashTable
+{
 public:
-    bool Insert(const pair <K, V>& kv) {
-        if(Find(kv.first)){
-            return false;
-        }
-        //¸ºÔØÒò×Ó³¬¹ı0.7¾ÍÀ©Èİ£ºÕâÊÇ×Ô¼º¹æ¶¨
-//        if (_tables.size() == 0 || _n * 10 / _tables.size() >= 7) {   //ÕâÀïÒòÎªÊÇ0.7ÊÇdouble£¬ËùÒÔ»»ÁËÒ»ÖÖĞ´·¨
-//            size_t newsize = _tables.size() == 0 ? 10 : _tables.size() * 2;
-//            vector<HashData<K,V>> newtables(newsize);
-//            //±éÀú¾É±í£¬ÖØĞÂÓ³Éäµ½ĞÂ±í
-//            size_t hashi = kv.first % newtables.size();
-//            for(auto& data:_tables){
-//                if(data._state == EXITS){
-//                    //ÖØĞÂËãÔÚĞÂ±íµÄÎ»ÖÃ
-//                    size_t i = 1;
-//                    size_t index = hashi;
-//                    while (newtables[index]._state == EXITS) {
-//                        index = hashi + i;
-//                        index %= newtables.size();   //·ÀÖ¹indexÔ½½ç£¬ÈÆ»ØÈ¥
-//                        i++;
-//                    }
-//
-//                    newtables[index]._kv = kv;
-//                    newtables[index]._state = EXITS;
-//                }
-//            }
-//            _tables.swap(newtables);  //½»»»Ö¸Õë
-//        }
+	bool Insert(const pair<K, V> &kv)
+	{
+		if (Find(kv.first))
+		{
+			return false;
+		}
+		// è´Ÿè½½å› å­è¶…è¿‡0.7å°±æ‰©å®¹ï¼šè¿™æ˜¯è‡ªå·±è§„å®š
+		//        if (_tables.size() == 0 || _n * 10 / _tables.size() >= 7) {   //è¿™é‡Œå› ä¸ºæ˜¯0.7æ˜¯doubleï¼Œæ‰€ä»¥æ¢äº†ä¸€ç§å†™æ³•
+		//            size_t newsize = _tables.size() == 0 ? 10 : _tables.size() * 2;
+		//            vector<HashData<K,V>> newtables(newsize);
+		//            //éå†æ—§è¡¨ï¼Œé‡æ–°æ˜ å°„åˆ°æ–°è¡¨
+		//            size_t hashi = kv.first % newtables.size();
+		//            for(auto& data:_tables){
+		//                if(data._state == EXITS){
+		//                    //é‡æ–°ç®—åœ¨æ–°è¡¨çš„ä½ç½®
+		//                    size_t i = 1;
+		//                    size_t index = hashi;
+		//                    while (newtables[index]._state == EXITS) {
+		//                        index = hashi + i;
+		//                        index %= newtables.size();   //é˜²æ­¢indexè¶Šç•Œï¼Œç»•å›å»
+		//                        i++;
+		//                    }
+		//
+		//                    newtables[index]._kv = kv;
+		//                    newtables[index]._state = EXITS;
+		//                }
+		//            }
+		//            _tables.swap(newtables);  //äº¤æ¢æŒ‡é’ˆ
+		//        }
 
-        //ĞŞ¸ÄÉÏÊöÀ©Èİ´úÂë£¬Ê¹Ö®²»ÈßÓà
-        if (_tables.size() == 0 || _n * 10 / _tables.size() >= 7) {
-            size_t newsize = this->_tables.size() == 0 ? 10 : this->_tables.size() * 2;
-            HashTable<K, V> newHashTable;   //ÖØĞÂ´´½¨Ò»¸öHashTableÀà
-            newHashTable._tables.resize(newsize);
+		// ä¿®æ”¹ä¸Šè¿°æ‰©å®¹ä»£ç ï¼Œä½¿ä¹‹ä¸å†—ä½™
+		if (_tables.size() == 0 || _n * 10 / _tables.size() >= 7)
+		{
+			size_t newsize = this->_tables.size() == 0 ? 10 : this->_tables.size() * 2;
+			HashTable<K, V> newHashTable; // é‡æ–°åˆ›å»ºä¸€ä¸ªHashTableç±»
+			newHashTable._tables.resize(newsize);
 
-            // ±éÀú¾É±í£¬ÖØĞÂÓ³Éäµ½ĞÂ±í
-            for (auto& data : this->_tables) {   //dataÊÇ_tableÖĞµÄÀàĞÍ£¬¶ÔÓ¦µÄHashData
-                if (data._state == EXITS) {
-                    newHashTable.Insert(data._kv);   //½«¾ÉµÄkv²åÈëµ½ĞÂµÄÀà¶ÔÏóÖĞ
-                }
-            }
+			// éå†æ—§è¡¨ï¼Œé‡æ–°æ˜ å°„åˆ°æ–°è¡¨
+			for (auto &data : this->_tables)
+			{ // dataæ˜¯_tableä¸­çš„ç±»å‹ï¼Œå¯¹åº”çš„HashData
+				if (data._state == EXITS)
+				{
+					newHashTable.Insert(data._kv); // å°†æ—§çš„kvæ’å…¥åˆ°æ–°çš„ç±»å¯¹è±¡ä¸­
+				}
+			}
 
-            this->_tables.swap(newHashTable._tables);
-        }
+			this->_tables.swap(newHashTable._tables);
+		}
 
-        size_t hashi = kv.first % this->_tables.size();
+		size_t hashi = kv.first % this->_tables.size();
 
-        //ÏßĞÎÌ½²â
-        size_t i = 1;
-        size_t index = hashi;   //indexÊÇ×îºóÒª²åÈëµÄÎ»ÖÃ
-        //µ±¹şÏ£×´Ì¬ÎªEXITS£¬ËµÃ÷±íÖĞÎ»ÖÃÒÑ¾­ÓĞÖµ£¬ÄÇÃ´¾Í¼ÌĞø²éÕÒ
-        while (this->_tables[index]._state == EXITS) {
-            index = hashi + i;
-            index %= this->_tables.size();   //·ÀÖ¹indexÔ½½ç£¬ÈÆ»ØÈ¥
-            i++;
-        }
+		// çº¿å½¢æ¢æµ‹
+		size_t i = 1;
+		size_t index = hashi; // indexæ˜¯æœ€åè¦æ’å…¥çš„ä½ç½®
+		// å½“å“ˆå¸ŒçŠ¶æ€ä¸ºEXITSï¼Œè¯´æ˜è¡¨ä¸­ä½ç½®å·²ç»æœ‰å€¼ï¼Œé‚£ä¹ˆå°±ç»§ç»­æŸ¥æ‰¾
+		while (this->_tables[index]._state == EXITS)
+		{
+			index = hashi + i;
+			index %= this->_tables.size(); // é˜²æ­¢indexè¶Šç•Œï¼Œç»•å›å»
+			i++;
+		}
 
-        this->_tables[index]._kv = kv;
-        this->_tables[index]._state = EXITS;
-        _n++;   //´æ´¢µÄÊı¾İ¸öÊı+1
+		this->_tables[index]._kv = kv;
+		this->_tables[index]._state = EXITS;
+		_n++; // å­˜å‚¨çš„æ•°æ®ä¸ªæ•°+1
 
-        return true;
-    }
+		return true;
+	}
 
-    HashData<K, V>* Find(const K& key) {
-        if(this->_tables.size()==0){
-            return nullptr;
-        }
+	HashData<K, V> *Find(const K &key)
+	{
+		if (this->_tables.size() == 0)
+		{
+			return nullptr;
+		}
 
-        size_t hashi = key % this->_tables.size();
-        size_t i = 1;
-        size_t index = hashi;   //indexÊÇ×îºóÒª²åÈëµÄÎ»ÖÃ
-        //µ±¹şÏ£×´Ì¬ÎªEXITS£¬ËµÃ÷±íÖĞÎ»ÖÃÒÑ¾­ÓĞÖµ£¬ÄÇÃ´¾Í¼ÌĞø²éÕÒ
-        while (this->_tables[index]._state != EMPTY) {
-            //µ±±íÖĞÖµ¸úkeyÏàµÈ£¬²¢ÇÒ×´Ì¬Îª´æÔÚÊ±²Å·µ»Ø£¬ÒòÎª¿ÉÄÜÖµµÄ×´Ì¬±»¸ÄÎªÁËdeleteËµÃ÷¸Õ¸Õ±»É¾³ı£¬²»¿ÉÒÔ·µ»Ø
-            if(this->_tables[index]._kv.first == key
-            && this->_tables[index]._state == EXITS){
-                return &this->_tables[index];
-            }
-            index = hashi + i;
-            index %= this->_tables.size();   //·ÀÖ¹indexÔ½½ç£¬ÈÆ»ØÈ¥
-            i++;
+		size_t hashi = key % this->_tables.size();
+		size_t i = 1;
+		size_t index = hashi; // indexæ˜¯æœ€åè¦æ’å…¥çš„ä½ç½®
+		// å½“å“ˆå¸ŒçŠ¶æ€ä¸ºEXITSï¼Œè¯´æ˜è¡¨ä¸­ä½ç½®å·²ç»æœ‰å€¼ï¼Œé‚£ä¹ˆå°±ç»§ç»­æŸ¥æ‰¾
+		while (this->_tables[index]._state != EMPTY)
+		{
+			// å½“è¡¨ä¸­å€¼è·Ÿkeyç›¸ç­‰ï¼Œå¹¶ä¸”çŠ¶æ€ä¸ºå­˜åœ¨æ—¶æ‰è¿”å›ï¼Œå› ä¸ºå¯èƒ½å€¼çš„çŠ¶æ€è¢«æ”¹ä¸ºäº†deleteè¯´æ˜åˆšåˆšè¢«åˆ é™¤ï¼Œä¸å¯ä»¥è¿”å›
+			if (this->_tables[index]._kv.first == key && this->_tables[index]._state == EXITS)
+			{
+				return &this->_tables[index];
+			}
+			index = hashi + i;
+			index %= this->_tables.size(); // é˜²æ­¢indexè¶Šç•Œï¼Œç»•å›å»
+			i++;
 
-            //ÕâÀïµÄ_state¿ÉÄÜ¶¼ÊÇ´æÔÚ»òÕßÉ¾³ı£¬ÄÇÃ´³ÌĞò¾Í¿ÉÄÜÏİÈëËÀÑ­»·£¬ËùÒÔĞèÒª¸ø¶¨Ìõ¼şÍË³ö
-            //Èç¹ûÒÑ¾­²éÕÒÒ»È¦£¬ÄÇÃ´ËµÃ÷È«ÊÇ´æÔÚ+É¾³ı
-            if(index == hashi){
-                break;
-            }
-        }
+			// è¿™é‡Œçš„_stateå¯èƒ½éƒ½æ˜¯å­˜åœ¨æˆ–è€…åˆ é™¤ï¼Œé‚£ä¹ˆç¨‹åºå°±å¯èƒ½é™·å…¥æ­»å¾ªç¯ï¼Œæ‰€ä»¥éœ€è¦ç»™å®šæ¡ä»¶é€€å‡º
+			// å¦‚æœå·²ç»æŸ¥æ‰¾ä¸€åœˆï¼Œé‚£ä¹ˆè¯´æ˜å…¨æ˜¯å­˜åœ¨+åˆ é™¤
+			if (index == hashi)
+			{
+				break;
+			}
+		}
 
-        return nullptr;
-    }
+		return nullptr;
+	}
 
-    bool Erase(const K& key){
-        HashData<K,V>* ret = Find(key);
-        if(ret){
-            ret->_state = DELETE;
-            this->_n--;
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+	bool Erase(const K &key)
+	{
+		HashData<K, V> *ret = Find(key);
+		if (ret)
+		{
+			ret->_state = DELETE;
+			this->_n--;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 private:
-    vector <HashData<K, V>> _tables;  //½«HashÖµ´æ·ÅÔÚvectorÖĞ
-    size_t _n = 0;   //´æ´¢µÄÊı¾İ¸öÊı
+	vector<HashData<K, V>> _tables; // å°†Hashå€¼å­˜æ”¾åœ¨vectorä¸­
+	size_t _n = 0;					// å­˜å‚¨çš„æ•°æ®ä¸ªæ•°
 };
