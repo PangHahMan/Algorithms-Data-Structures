@@ -1,54 +1,55 @@
 #pragma once
-#include<utility>
-#include<cassert>
-#include<iostream>
+#include <utility>
+#include <cassert>
+#include <iostream>
 using namespace std;
 
-//红黑树节点颜色
+// 红黑树节点颜色
 enum Colour
 {
 	RED,
 	BLACK,
 };
 
-template<class K, class V>
+template <class K, class V>
 struct RBTreeNode
 {
-	RBTreeNode<K, V>* _left;
-	RBTreeNode<K, V>* _right;
-	RBTreeNode<K, V>* _parent;
+	RBTreeNode<K, V> *_left;
+	RBTreeNode<K, V> *_right;
+	RBTreeNode<K, V> *_parent;
 	pair<K, V> _kv;
 	Colour _col;
-    //在单参数构造函数中使用 explicit 关键字是一种好的编程习惯，可以提高代码的可读性和健壮性。
-	//加上 explicit 关键字，以避免出现不必要的隐式类型转换。如果没有加上 explicit 关键字，那么可以使用该构造函数创建一个 RBTreeNode 对象时，会发生隐式类型转换，将一个 pair<K, V> 类型的对象转换为 RBTreeNode 对象，这可能导致程序行为出现意外的结果。
-	explicit RBTreeNode(const pair<K, V>& kv)
+	// 在单参数构造函数中使用 explicit 关键字是一种好的编程习惯，可以提高代码的可读性和健壮性。
+	// 加上 explicit 关键字，以避免出现不必要的隐式类型转换。如果没有加上 explicit 关键字，那么可以使用该构造函数创建一个 RBTreeNode 对象时，会发生隐式类型转换，将一个 pair<K, V> 类型的对象转换为 RBTreeNode 对象，这可能导致程序行为出现意外的结果。
+	explicit RBTreeNode(const pair<K, V> &kv)
 		: _left(nullptr), _right(nullptr), _parent(nullptr), _kv(kv), _col(RED)
 	{
 	}
 };
 
-template<class K, class V>
+template <class K, class V>
 class RBTree
 {
 	typedef RBTreeNode<K, V> Node;
+
 public:
-	//析构函数
+	// 析构函数
 	~RBTree()
 	{
 		Destroy(this->_root);
 		this->_root = nullptr;
 	}
 
-	Node* find(const K& key)
+	Node *find(const K &key)
 	{
-		Node* cur = this->_root;
-		while(cur)
+		Node *cur = this->_root;
+		while (cur)
 		{
-			if(key>cur->_kv.first)
+			if (key > cur->_kv.first)
 			{
 				cur = cur->_right;
 			}
-			else if(key<cur->_kv.first)
+			else if (key < cur->_kv.first)
 			{
 				cur = cur->_left;
 			}
@@ -60,7 +61,7 @@ public:
 		return nullptr;
 	}
 
-	bool Insert(const pair<K, V>& kv)
+	bool Insert(const pair<K, V> &kv)
 	{
 		if (_root == nullptr)
 		{
@@ -69,8 +70,8 @@ public:
 			return true;
 		}
 
-		Node* parent = nullptr;
-		Node* cur = _root;
+		Node *parent = nullptr;
+		Node *cur = _root;
 		while (cur)
 		{
 			if (kv.first > cur->_kv.first)
@@ -102,35 +103,35 @@ public:
 		}
 		// cur链接parent
 		cur->_parent = parent;
-		//parent存在且parent的节点为红色的(意味着，循环往上调整到parent不存在或者parent为黑就不用调整了)
+		// parent存在且parent的节点为红色的(意味着，循环往上调整到parent不存在或者parent为黑就不用调整了)
 		while (parent && parent->_col == RED)
 		{
-			Node* grandfather = parent->_parent;
-			//如果爷爷的左边是父亲，那么爷爷的右边就是叔叔
+			Node *grandfather = parent->_parent;
+			// 如果爷爷的左边是父亲，那么爷爷的右边就是叔叔
 			if (grandfather->_left == parent)
 			{
-				Node* uncle = grandfather->_right;
-				//情况1：u存在且为红，变色处理，并继续往上处理
+				Node *uncle = grandfather->_right;
+				// 情况1：u存在且为红，变色处理，并继续往上处理
 				if (uncle && uncle->_col == RED)
 				{
-					//调整parent变黑，uncle变黑，grandfather变红
+					// 调整parent变黑，uncle变黑，grandfather变红
 					parent->_col = BLACK;
 					uncle->_col = BLACK;
 					grandfather->_col = RED;
 
-					//继续网上调整
-					//重置parent，先将grandfather位置看成新增结点cur
+					// 继续网上调整
+					// 重置parent，先将grandfather位置看成新增结点cur
 					cur = grandfather;
 					parent = cur->_parent;
 				}
-				else  //情况2+3  u不存在/u存在且为黑，旋转+变色
+				else // 情况2+3  u不存在/u存在且为黑，旋转+变色
 				{
 					if (cur == parent->_left)
 					{
 						//     g
 						//   p   u
 						// c
-						//如果cur在parent的左边，需要右旋+变色,右旋后parent成为根，需要变黑，grandfather变为parent的孩子，需要变红
+						// 如果cur在parent的左边，需要右旋+变色,右旋后parent成为根，需要变黑，grandfather变为parent的孩子，需要变红
 						RotateRight(grandfather);
 						parent->_col = BLACK;
 						grandfather->_col = RED;
@@ -140,21 +141,21 @@ public:
 						//     g
 						//   p   u
 						//     c
-						//当cur为parent的右边时，需要左旋+右旋+变色
+						// 当cur为parent的右边时，需要左旋+右旋+变色
 						RotateLeft(parent);
-						RotateRight(grandfather);   //右旋cur成为新的根,变为黑色，grandfather变为cur孩子，变为红色
+						RotateRight(grandfather); // 右旋cur成为新的根,变为黑色，grandfather变为cur孩子，变为红色
 						cur->_col = BLACK;
 						grandfather->_col = RED;
 					}
 					break;
 				}
 			}
-			else  //(grandfather->_right == parent)  如果爷爷的右边是父亲，那么爷爷的左边就是叔叔
+			else //(grandfather->_right == parent)  如果爷爷的右边是父亲，那么爷爷的左边就是叔叔
 			{
 				//    g
 				//  u   p
 				//        c
-				Node* uncle = grandfather->_left;
+				Node *uncle = grandfather->_left;
 				// 情况1：u存在且为红，变色处理，并继续往上处理
 				if (uncle && uncle->_col == RED)
 				{
@@ -190,9 +191,8 @@ public:
 					break;
 				}
 			}
-
 		}
-		//最后的根变为黑节点
+		// 最后的根变为黑节点
 		_root->_col = BLACK;
 		return true;
 	}
@@ -210,15 +210,15 @@ public:
 			return false;
 		}
 
-		int benchmark = 0;   //基准值，任选一条做，用于比较每条节点黑色节点相同，如果不相同则说明不平衡
-		Node* cur = this->_root;
+		int benchmark = 0; // 基准值，任选一条做，用于比较每条节点黑色节点相同，如果不相同则说明不平衡
+		Node *cur = this->_root;
 		while (cur)
 		{
 			if (cur->_col == BLACK)
 				benchmark++;
 			cur = cur->_left;
 		}
-		//连续红色节点
+		// 连续红色节点
 		return _check(this->_root, 0, benchmark);
 	}
 
@@ -226,20 +226,21 @@ public:
 	{
 		return Height(this->_root);
 	}
+
 private:
-	void Destroy(Node* root)
+	void Destroy(Node *root)
 	{
-		if(root== nullptr)
+		if (root == nullptr)
 		{
 			return;
 		}
-		//后序销毁
+		// 后序销毁
 		Destroy(root->_left);
 		Destroy(root->_right);
 		delete root;
 	}
 
-	int Height(Node* root)
+	int Height(Node *root)
 	{
 		if (root == nullptr)
 			return 0;
@@ -250,10 +251,10 @@ private:
 		return leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1;
 	}
 
-	bool _check(Node* root, int BlackNum, int benchmark)
+	bool _check(Node *root, int BlackNum, int benchmark)
 	{
-		//检查不能存在连续的红色节点
-		//benchmark基准值
+		// 检查不能存在连续的红色节点
+		// benchmark基准值
 		if (root == nullptr)
 		{
 			if (benchmark != BlackNum)
@@ -279,7 +280,7 @@ private:
 		return _check(root->_left, BlackNum, benchmark) && _check(root->_right, BlackNum, benchmark);
 	}
 
-	void InOrder(Node* root)
+	void InOrder(Node *root)
 	{
 		if (root == nullptr)
 		{
@@ -292,10 +293,10 @@ private:
 	}
 
 	// 左单旋
-	void RotateLeft(Node* parent)
+	void RotateLeft(Node *parent)
 	{
-		Node* subR = parent->_right; // 要旋转的parent的右子树
-		Node* subRL = subR->_left;     // 子树的左子树
+		Node *subR = parent->_right; // 要旋转的parent的右子树
+		Node *subRL = subR->_left;	 // 子树的左子树
 
 		// 旋转链接
 		parent->_right = subRL;
@@ -303,7 +304,7 @@ private:
 			subRL->_parent = parent;
 
 		// 需要记录要旋转的树还有没有父亲
-		Node* ppnode = parent->_parent;
+		Node *ppnode = parent->_parent;
 
 		subR->_left = parent;
 		parent->_parent = subR;
@@ -330,16 +331,16 @@ private:
 	}
 
 	// 右单旋
-	void RotateRight(Node* parent)
+	void RotateRight(Node *parent)
 	{
-		Node* subL = parent->_left;
-		Node* subLR = subL->_right;
+		Node *subL = parent->_left;
+		Node *subLR = subL->_right;
 
 		parent->_left = subLR;
 		if (subLR)
 			subLR->_parent = parent;
 
-		Node* ppnode = parent->_parent;
+		Node *ppnode = parent->_parent;
 
 		subL->_right = parent;
 		parent->_parent = subL;
@@ -362,6 +363,7 @@ private:
 			subL->_parent = ppnode;
 		}
 	}
+
 private:
-	Node* _root;
+	Node *_root;
 };
