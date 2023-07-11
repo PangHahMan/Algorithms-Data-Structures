@@ -12,13 +12,13 @@ public:
     void reOrderArray(vector<int> &array) {
         int k = 0;// 用来放奇数的下标
         for (int i = 0; i < array.size(); i++) {
-            if (array[i] % 2 == 1)// 遇到奇数，挪动位置，挪动k+1~i之间的位置
+            if (array[i] % 2 == 1)//遇到奇数，挪动位置，挪动k+1~i之间的位置
             {
-                int tmp = array[i];
-                for (int j = i; j > k; j--) {
+                int tmp = array[i];          //现将当前奇数保存起来
+                for (int j = i; j > k; j--) {//将该奇数之前的内容(偶数序列)，整体后移一个位置
                     array[j] = array[j - 1];
                 }
-                array[k++] = tmp;
+                array[k++] = tmp;//将奇数保存在它将来改在的位置，因为我们是从左往右放的，没有跨越奇数，所以一定是相对位置不变的
             }
         }
     }
