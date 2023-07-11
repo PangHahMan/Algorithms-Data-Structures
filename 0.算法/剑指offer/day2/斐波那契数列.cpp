@@ -61,7 +61,7 @@ public:
 };
 
 
-//直接用最简单的方式因为代码空间复杂度过高，过不了OJ，所以我们可以采用map进行“剪枝”
+//直接用最简单的方式因为代码空间复杂度过高，过不了OJ，所以我们可以采用map进行"剪枝"
 class Solution {
 private:
     unordered_map<int, int> filter;
@@ -75,7 +75,7 @@ public:
         if (n == 1 || n == 2) {
             return 1;
         }
-        
+
         int pre = 0;
         if (filter.find(n - 1) == filter.end()) {
             pre = Fibonacci(n - 1);
@@ -83,6 +83,7 @@ public:
         } else {
             pre = filter[n - 1];
         }
+
         int ppre = 0;
         if (filter.find(n - 2) == filter.end()) {
             ppre = Fibonacci(n - 2);
