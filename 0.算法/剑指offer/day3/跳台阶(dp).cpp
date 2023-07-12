@@ -34,7 +34,7 @@ public:
             dp[i] = dp[i - 1] + dp[i - 2];
         }
         int num = dp[number];//第number下标，就是第number阶台阶
-        delete dp;
+        delete[] dp;
         return num;
     }
 };
