@@ -76,21 +76,23 @@ public:
             return 1;
         }
 
+        //先计算n-2的值,提高效率
         int pre = 0;
-        if (filter.find(n - 1) == filter.end()) {
-            pre = Fibonacci(n - 1);
-            filter.insert({n - 1, pre});
+        if (filter.find(n - 2) == filter.end()) {
+            pre = Fibonacci(n - 2);
+            filter.insert({n - 2, pre});//算出的ppre要插入到map中,防止重复计算
         } else {
-            pre = filter[n - 1];
+            pre = filter[n - 2];
         }
 
         int ppre = 0;
-        if (filter.find(n - 2) == filter.end()) {
-            ppre = Fibonacci(n - 2);
-            filter.insert({n - 2, ppre});
+        if (filter.find(n - 1) == filter.end()) {
+            ppre = Fibonacci(n - 1);
+            filter.insert({n - 1, ppre});
         } else {
-            ppre = filter[n - 2];
+            ppre = filter[n - 1];
         }
+
         return pre + ppre;
     }
 };
