@@ -49,7 +49,6 @@ public:
     }
 };
 
-
 //思路2：头插思想进行翻转
 class Solution {
 public:
