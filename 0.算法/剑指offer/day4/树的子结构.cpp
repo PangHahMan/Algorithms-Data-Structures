@@ -28,12 +28,13 @@ class Solution {
 public:
     bool isSubTree(TreeNode *root, TreeNode *subRoot) {
         //递归条件
-        //两个都为nullptr,则说明相等,返回true
+        //subRoot == nullptr,说明subRoot走到了结束,那么说明是子结构
         if (subRoot == nullptr) {
             return true;
         }
 
-        if (root == nullptr) {
+        //subRoot!=nullptr，但是root==nullptr,说明subRoot不是root的子结构
+        if(root == nullptr){
             return false;
         }
 
