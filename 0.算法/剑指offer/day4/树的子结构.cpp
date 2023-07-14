@@ -34,7 +34,7 @@ public:
         }
 
         //subRoot!=nullptr，但是root==nullptr,说明subRoot不是root的子结构
-        if(root == nullptr){
+        if (root == nullptr) {
             return false;
         }
 
@@ -58,3 +58,6 @@ public:
         return HasSubtree(pRoot1->left, pRoot2) || HasSubtree(pRoot1->right, pRoot2);
     }
 };
+
+
+//https://www.nowcoder.com/practice/6e196c44c7004d15b1610b9afca8bd88?
