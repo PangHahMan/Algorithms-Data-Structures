@@ -18,6 +18,11 @@ bbb
 both
  */
 
+/* 
+思路：
+思路很简单，将接受的字符串都放到vector容器中，利用string的operator>=运算符重载来按ascii比较字符
+串，利用string的size来比较字符串的长度 
+*/
 #include <iostream>
 #include <string>
 #include <vector>
@@ -55,3 +60,5 @@ int main() {
     }
     return 0;
 }
+
+//https://www.nowcoder.com/practice/839f681bf36c486fbcc5fcb977ffe432?tpId=85&&tqId=29844&rp=1&ru=/activity/oj&qru=/ta/2017test/question-ranking
