@@ -64,3 +64,5 @@ int main() {
     }
     return 0;
 }
+
+//https://www.nowcoder.com/practice/43072d50a6eb44d2a6c816a283b02036?tpId=37&&tqId=21294&rp=1&ru=/activity/oj&qru=/ta/huawei/question-ranking
