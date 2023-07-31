@@ -1,6 +1,3 @@
-
-
-
 /*思路： 
 本题可以通过递归求解。从前向后一次匹配，遇到相同字符，都向后移动一个字符，如果通配符遇到"?"，则
 不需匹配，自动跳过一个字符，如果通配符遇到"*"，则可以匹配任意多个字符，包括0个，此时可以有三种
@@ -34,10 +31,12 @@ bool strMatch(const char *pattern, const char *str) {
     else if (*pattern == '*') {
         // 遇到*号，匹配0个(str不挪动)，1个（两者都向前挪动一个字符）或多个(str向前挪动一个字符)
         //这里需要处理连续的*号，否则会出现无限递归的问题
+        //比如 **  连续两个*   碰到第一个* 匹配str
         while (*pattern == '*') {
             pattern++;
         }
 
+        pattern--;
         if (!isdigit(*str) && !isalpha(*str)) {
             return strMatch(pattern + 1, str);
         }
