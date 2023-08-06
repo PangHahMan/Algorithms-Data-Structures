@@ -44,7 +44,7 @@ public:
     int MoreThanHalfNum_Solution(vector<int> numbers) {
         //排序,中间的数字一定是最多的
         sort(numbers.begin(), numbers.end());
-        return numbers[numbers.size() / 2];
+        int size = numbers[numbers.size() / 2];
     }
 };
 
