@@ -74,7 +74,7 @@ void MazeTrack(int i, int j) {
 
     //判断是否到达出口
     if (i == ROW - 1 && j == COL - 1) {
-        //寻找最短路径
+        //寻找最短路径,如果题目是唯一路径则不需要判断
         if (path_best.empty() || path_best.size() > path_tmp.size()) {
             //更新best
             path_best = path_tmp;
