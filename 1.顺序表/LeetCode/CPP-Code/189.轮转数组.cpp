@@ -9,6 +9,7 @@
 向右轮转 2 步: [6,7,1,2,3,4,5]
 向右轮转 3 步: [5,6,7,1,2,3,4]
 */
+#include <algorithm>
 #include <vector>
 using namespace std;
 
@@ -33,21 +34,17 @@ public:
 */
 
 // 方法2 三次逆置
-class Solution
-{
+class Solution {
 public:
-    void reverse(vector<int> &nums, int begin, int end)
-    {
-        while (begin < end)
-        {
+    void reverse(vector<int> &nums, int begin, int end) {
+        while (begin < end) {
             swap(nums[begin], nums[end]);
             begin++;
             end--;
         }
     }
 
-    void rotate(vector<int> &nums, int k)
-    {
+    void rotate(vector<int> &nums, int k) {
         // 需要使k重置，形成环形的数组
         k %= nums.size();
         // 1.整体逆置
@@ -56,6 +53,17 @@ public:
         reverse(nums, 0, k - 1);
         // 3.逆置k右边
         reverse(nums, k, nums.size() - 1);
+    }
+};
+
+//库函数
+class Solution {
+public:
+    void rotate(vector<int> &nums, int k) {
+        k %= nums.size();
+        std::reverse(nums.begin(), nums.end());      // 翻转整个数组
+        std::reverse(nums.begin(), nums.begin() + k);// 翻转前 k 个元素
+        std::reverse(nums.begin() + k, nums.end());  // 翻转剩余部分
     }
 };
 // https://leetcode.cn/problems/rotate-array/
