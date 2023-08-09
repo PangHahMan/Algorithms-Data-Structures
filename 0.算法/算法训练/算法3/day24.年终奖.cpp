@@ -5,5 +5,42 @@
 */
 
 
+#include <algorithm>
+#include <vector>
+using namespace std;
+class Bonus {
+public:
+    int getMost(vector<vector<int>> board) {
+        int row = board.size();
+        int col = board[0].size();
+        //初始化，allPrice表示累加值
+        vector<vector<int>> allPrice(row, vector<int>(col, 0));
+        //初始化第一个
+        allPrice[0][0] = board[0][0];
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                //起点坐标已经初始化，可以直接跳过
+                if (i == 0 && j == 0) {
+                    continue;
+                }
+                //第一行的值，都是通过往右走得来的，当前累加值等于当前礼物价值加上左边的累加值
+                if (i == 0) {
+                    allPrice[i][j] = allPrice[i][j - 1] + board[i][j];
+                } else if (j == 0) {
+                    //如果是第一列，就只能往下走
+                    allPrice[i][j] = allPrice[i - 1][j] + board[i][j];
+                } else {
+                    //除去两个临界边，剩下的就是既能向右走，也能向下走，
+                    //这时候就要考虑走到当前点的所有可能得情况，也就是走到当前点
+                    //各自路径的和是不是这些所有到达该点路径当中最大的了
+                    allPrice[i][j] = max(allPrice[i][j - 1], allPrice[i - 1][j]) + board[i][j];
+                }
+            }
+        }
+        //返回右下角的值
+        return allPrice[row - 1][col - 1];
+    }
+};
 
 //https://www.nowcoder.com/practice/72a99e28381a407991f2c96d8cb238ab?tpId=49&&tqId=29305&rp=1&ru=/activity/oj&qru=/ta/2016test/question-ranking
