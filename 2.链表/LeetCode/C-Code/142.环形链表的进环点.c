@@ -96,6 +96,7 @@ struct ListNode *detectCycle(struct ListNode *head)
             struct ListNode *meet = slow;
             //将meet->next保存到其他节点，在将meet->next设为空，以防找相交链表永远死循环
             struct ListNode *otherNode = meet->next;
+            meet->next = NULL;
             return getIntersectionNode(head, otherNode);
         }
     }
