@@ -8,6 +8,7 @@ struct ListNode {
     ListNode(int x) : val(x), next(nullptr) {}
 };
 
+//思路：计算两个链表各自的长度，计算差值，让长链表先走差值步，然后一起走，直到相等,找不到返回nullptr
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
