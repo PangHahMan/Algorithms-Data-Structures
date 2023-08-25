@@ -1,70 +1,68 @@
-struct TreeNode
-{
+#include <stack>
+using namespace std;
+
+struct TreeNode {
     int val;
     TreeNode *left;
     TreeNode *right;
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 };
 
-#include <stack>
-using namespace std;
-class Solution
-{
+class Solution {
 public:
-    bool GetPath(TreeNode *root, TreeNode *x, stack<TreeNode *> &path)
-    {
+    // 获取从根节点到目标节点的路径，将路径保存在给定的栈中
+    bool GetPath(TreeNode *root, TreeNode *x, stack<TreeNode *> &path) {
         if (root == nullptr)
             return false;
 
         path.push(root);
-        if (root == x)
-        {
-            return true;
+        if (root == x) {
+            return true;// 找到目标节点，返回真
         }
 
-        // 递归子树，返回为真，就返回真，用于判断和要找的路径是同一个路径
-        // 也就是说要找的数的同一条路径返回结果都为真，而别的路径的返回结果为假，就pop掉
-        if (GetPath(root->left, x, path))
-        {
-            return true;
+        // 在左子树中递归查找目标节点
+        if (GetPath(root->left, x, path)) {
+            return true;// 如果在左子树中找到，返回真
         }
 
-        if (GetPath(root->right, x, path))
-        {
-            return true;
+        // 在右子树中递归查找目标节点
+        if (GetPath(root->right, x, path)) {
+            return true;// 如果在右子树中找到，返回真
         }
 
-        // 这里比较关键，由下一级返回回来的为false才能走到这
+        // 如果左右子树都没有找到目标节点，将当前节点从路径中移除
         path.pop();
 
-        return false;
+        return false;// 未找到目标节点，返回假
     }
 
-    TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
-    {
+    // 找到两个节点的最低公共祖先
+    TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q) {
         stack<TreeNode *> pPath, qPath;
+
+        // 获取根节点到p的路径
         GetPath(root, p, pPath);
+        // 获取根节点到q的路径
         GetPath(root, q, qPath);
-        while (pPath.size() != qPath.size())
-        {
-            if (pPath.size() > qPath.size())
-            {
-                pPath.pop();
-            }
-            else
-            {
-                qPath.pop();
+
+        // 对比两个路径，使得路径长度相同
+        while (pPath.size() != qPath.size()) {
+            if (pPath.size() > qPath.size()) {
+                pPath.pop();// 移除较长路径的顶部节点
+            } else {
+                qPath.pop();// 移除较长路径的顶部节点
             }
         }
 
-        while (pPath.top() != qPath.top())
-        {
+        // 同时向上遍历两条路径，直到找到最低公共祖先
+        while (pPath.top() != qPath.top()) {
             pPath.pop();
             qPath.pop();
         }
 
-        return pPath.top();
+        return pPath.top();// 返回最低公共祖先节点
     }
 };
+
 
 // https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/submissions/
