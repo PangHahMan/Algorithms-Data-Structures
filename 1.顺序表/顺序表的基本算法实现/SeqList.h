@@ -26,3 +26,5 @@ int SeqListFind(SeqList* ps, SLDataType x);
 void SeqListInsert(SeqList* ps, int pos, SLDataType x);
 // 顺序表删除pos位置的值
 void SeqListErase(SeqList* ps, int pos);
+//修改指定下标位置元素
+void SeqListModify(SeqList *ps, int pos, SLDataType x);
