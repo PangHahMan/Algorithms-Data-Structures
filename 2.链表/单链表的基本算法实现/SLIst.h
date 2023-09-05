@@ -1,12 +1,11 @@
 #pragma once
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 typedef int SLDataType;
-typedef struct SListNode
-{
-    SLDataType data;
-    struct SListNode *next;
+typedef struct SListNode {
+    SLDataType data;       //数据域：用于存储该结点的数据
+    struct SListNode *next;//指针域：用于存放下一个结点的地址
 } SListNode;
 
 // 动态申请一个节点

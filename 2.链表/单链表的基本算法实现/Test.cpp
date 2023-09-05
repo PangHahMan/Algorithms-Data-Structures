@@ -1,7 +1,6 @@
 #include "SList.h"
 
-void test1()
-{
+void test1() {
     SListNode *phead = SListCreate(5);
     SListPushBack(&phead, 5);
     SListPushBack(&phead, 6);
@@ -20,32 +19,23 @@ void test1()
     SListPrint(phead);
 }
 
-struct ListNode
-{
+struct ListNode {
     int val;
     struct ListNode *next;
 };
 
-struct ListNode *removeElements(struct ListNode *head, int val)
-{
+struct ListNode *removeElements(struct ListNode *head, int val) {
     struct ListNode *newhead, *tail;
     newhead = tail = NULL;
     struct ListNode *cur = head;
-    while (cur)
-    {
-        if (cur->val == val)
-        {
+    while (cur) {
+        if (cur->val == val) {
             cur = cur->next;
-        }
-        else
-        {
-            if (tail == NULL)
-            {
+        } else {
+            if (tail == NULL) {
                 newhead = tail = cur;
                 cur = cur->next;
-            }
-            else
-            {
+            } else {
                 tail->next = cur;
                 cur = cur->next;
                 tail = tail->next;
@@ -56,12 +46,10 @@ struct ListNode *removeElements(struct ListNode *head, int val)
     return newhead;
 }
 
-void test2()
-{
+void test2() {
 }
 
-int main()
-{
+int main() {
     struct ListNode s1;
     struct ListNode s2;
     struct ListNode s3;
@@ -84,6 +72,6 @@ int main()
     s7.val = 6;
     s7.next = NULL;
     struct ListNode *newhead = removeElements(&s1, 6);
-   
+
     return 0;
 }
