@@ -1,23 +1,21 @@
 #pragma once
-#include <stdio.h>
-#include <stdlib.h>
 #include <assert.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef int QDataType;
 // 队列里队头和队尾的结构
-typedef struct QueueNode
-{
-	QDataType data;
-	struct QueueNode *next;
+typedef struct QueueNode {
+    QDataType data;        //数据域
+    struct QueueNode *next;//指针域
 } QNode;
 
 // 队列的结构
-typedef struct Queue
-{
-	QNode *front; // 队头
-	QNode *rear;  // 队尾
-	size_t size;  // 队列长度
+typedef struct Queue {
+    QNode *front;// 队头
+    QNode *rear; // 队尾
+    size_t size; // 队列长度
 } Queue;
 
 // 队列的初始化

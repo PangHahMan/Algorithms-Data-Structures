@@ -1,15 +1,14 @@
 #pragma once
-#include <stdio.h>
-#include <stdlib.h>
 #include <assert.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 typedef int DataType;
 // 动态栈的结构
-typedef struct Stack
-{
+typedef struct Stack {
     DataType *a;
-    int top;      // 栈顶
-    int capacity; // 容量
+    int top;     // 栈顶
+    int capacity;// 容量
 } Stack;
 
 // 初始化栈
