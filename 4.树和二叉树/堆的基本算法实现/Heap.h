@@ -1,17 +1,16 @@
 #pragma once
-#include <stdio.h>
 #include <assert.h>
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 typedef int HPDataType;
 // 堆的结构 - 顺序表
-typedef struct Heap
-{
-	HPDataType *a;
-	int size;
-	int capacity;
+typedef struct Heap {
+    HPDataType *a;
+    int size;
+    int capacity;
 } Heap;
 
 // 堆的创建 - 建堆算法

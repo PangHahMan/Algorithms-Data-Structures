@@ -21,18 +21,28 @@ MyCircularQueue *myCircularQueueCreate(int k) {
     return obj;
 }
 
-// 队列判空
+// 队列判空front == rear
 bool myCircularQueueIsEmpty(MyCircularQueue *obj) {
     assert(obj);
     // 判空的条件是front和rear都为0
     return obj->front == obj->rear;
 }
 
-// 队列判满
+// 队列判满 (rear+1)%(k+1)=front
 bool myCircularQueueIsFull(MyCircularQueue *obj) {
     assert(obj);
     // 判满的条件是队列满了，rear指向了最后一个空的数组，+1需要回到front的位置，也就是(rear+1)%(k+1)==front
     return ((obj->rear + 1) % (obj->k + 1)) == obj->front;
+}
+
+//求有效长度(rear-front+k+1)%(k+1)
+int myCircularQueueLength(MyCircularQueue *obj) {
+    assert(obj);
+
+    if (myCircularQueueIsEmpty(obj))
+        return 0;
+
+    return (obj->rear - obj->front + obj->k + 1) % (obj->k + 1);
 }
 
 bool myCircularQueueEnQueue(MyCircularQueue *obj, int value) {
@@ -90,5 +100,6 @@ void myCircularQueueFree(MyCircularQueue *obj) {
     free(obj->queue);
     free(obj);
 }
+
 
 // https://leetcode.cn/problems/design-circular-queue/

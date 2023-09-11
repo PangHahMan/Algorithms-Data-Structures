@@ -1,14 +1,13 @@
 #pragma once
-#include <stdio.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 typedef int BTDataType;
 // 二叉树的结构
-typedef struct BinaryTreeNode
-{
-	BTDataType data;			  // 树的值
-	struct BinaryTreeNode *left;  // 左孩子
-	struct BinaryTreeNode *right; // 右孩子
+typedef struct BinaryTreeNode {
+    BTDataType data;             // 树的值
+    struct BinaryTreeNode *left; // 左孩子
+    struct BinaryTreeNode *right;// 右孩子
 } BinaryTreeNode;
 
 // 通过前序遍历的数组"ABD##E#H##CF##G##"构建二叉树
