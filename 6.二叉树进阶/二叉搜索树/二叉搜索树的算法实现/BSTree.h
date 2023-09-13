@@ -5,11 +5,12 @@ using namespace std;
 template<class K>
 // 二叉树的结构
 struct BSTreeNode {
-    BSTreeNode<K> *_left;
-    BSTreeNode<K> *_right;
-    K _key;
+    BSTreeNode<K> *_left; //左孩子指针
+    BSTreeNode<K> *_right;//右孩子指针
+    K _key;               //结点值
 
-    BSTreeNode(const K &key)
+    //构造函数
+    BSTreeNode(const K &key = 0)
         : _left(nullptr), _right(nullptr), _key(key) {
     }
 };
@@ -20,16 +21,29 @@ class BSTree {
 
 public:
     BSTree() = default;//指定强制生成默认构造
+    //默认构造,构造一个空树
 
+    //构造树的深拷贝
     BSTree(const BSTree<K> &t) {
         _root = Copy(t._root);
     }
 
+    //传统写法
+    const BSTree<K> &operator=(const BSTree<K> &t) {
+        //避免自己拷贝自己
+        if (this != &t) {
+            _root = Copy(t._root);
+        }
+        return *this;//为了支持连续赋值
+    }
+
+    //现代写法,接收一个t的拷贝,临时对象,然后进行交换
     BSTree<K> &operator=(BSTree<K> t) {
         swap(_root, t._root);
         return *this;
     }
 
+    //析构函数
     ~BSTree() {
         Destroy(_root);
     }
@@ -45,24 +59,28 @@ public:
         Node *parent = nullptr;// parent跟着cur遍历找到合适的位置，充当插入的父亲节点
         Node *cur = _root;
         while (cur) {
+            //key < cur->_key 需要走左子树
+            //key > cur->_key 需要走右子树
             if (key < cur->_key) {
-                parent = cur;
-                cur = cur->_left;
+                parent = cur;    //记录父亲结点
+                cur = cur->_left;//走左树
             } else if (key > cur->_key) {
                 parent = cur;
-                cur = cur->_right;
-            } else// 如果key == cur->_key  那么就直接返回false，二叉搜索树的值不允许相同
-            {
+                cur = cur->_right;//走右数
+            } else {
+                // 如果key == cur->_key  那么就直接返回false，二叉搜索树的值不允许相同
                 return false;
             }
         }
         // 找到后就开始链接
         cur = new Node(key);
         // 这里不知道cur最终走到了parent的左边还是右边，所以还要进行判断
+        // key>parent->_key 链接右树
+        // key<parent->_key 链接左树
         if (key > parent->_key) {
-            parent->_right = cur;
+            parent->_right = cur;//右树
         } else if (key < parent->_key) {
-            parent->_left = cur;
+            parent->_left = cur;//左树
         }
         return true;
     }
@@ -86,7 +104,7 @@ public:
     bool Erase(const K &key) {
         Node *parent = nullptr;
         Node *cur = _root;
-        while (cur != nullptr) {
+        while (cur) {
             if (key > cur->_key) {
                 parent = cur;
                 cur = cur->_right;
@@ -110,8 +128,7 @@ public:
                     }
 
                     delete cur;
-                }// 2.cur的右边为nullptr
-                else if (cur->_right == nullptr) {
+                } else if (cur->_right == nullptr) {// 2.cur的右边为nullptr
                     // if (parent == nullptr)
                     if (cur == _root) {
                         _root = cur->_left;
@@ -124,8 +141,8 @@ public:
                     }
 
                     delete cur;
-                } else// 都不为nullptr,替代法，用被删除的cur的左子树的最大节点，右子树的最大节点替换
-                {
+                } else {
+                    // 都不为nullptr,替代法，用被删除的cur的左子树的最大节点，右子树的最大节点替换
                     // 找cur右子树的最大节点
                     Node *pminRight = cur;
                     Node *minRight = cur->_right;
@@ -141,8 +158,9 @@ public:
                     // 那么可能minRight还有右子树，所以需要pinRight来领养
                     if (pminRight->_left == minRight) {
                         pminRight->_left = minRight->_right;
-                    } else// 如果不是，比如删除根节点，那么就需要将pminRight->_right指向minRight->right(最小值左边一定为NULL。不需要领养)
-                    {
+                    } else {
+                        // 如果不是，比如删除根节点，那么就需要将pminRight->_right指向minRight->right(最小值左边一定为NULL。不需要领养)
+                        //minRight是其父结点的右孩子
                         pminRight->_right = minRight->_right;
                     }
 
@@ -155,21 +173,26 @@ public:
     }
 
     bool _FindR(Node *root, const K &key) {
-        if (root == nullptr)
+        if (root == nullptr) {
             return false;
+        }
 
-        if (root->_key == key)
+        if (root->_key == key) {
             return true;
+        }
 
-        if (key > root->_key)
+        if (key > root->_key) {
             return _FindR(root->_right, key);
-        else
+        } else {
             return _FindR(root->_left, key);
+        }
     }
 
     Node *Copy(Node *root) {
-        if (root == nullptr)
+        if (root == nullptr) {
             return nullptr;
+        }
+        //前序遍历copy树
         Node *newRoot = new Node(root->_key);
         newRoot->_left = Copy(root->_left);
         newRoot->_right = Copy(root->_right);
@@ -178,8 +201,10 @@ public:
     }
 
     void Destroy(Node *&root) {
-        if (root == nullptr)
+        if (root == nullptr) {
             return;
+        }
+        //后序遍历析构
         Destroy(root->_left);
         Destroy(root->_right);
 
@@ -222,7 +247,7 @@ public:
             Node *del = root;
             //开始准备删除，root谁上层root->_left/_right的引用
             if (root->_right == nullptr) {
-                //上层的左右指向当前层的左右
+                //root是上层的左右子树
                 root = root->_left;
             } else if (root->_left == nullptr) {
                 root = root->_right;
@@ -253,7 +278,6 @@ public:
         cout << endl;
     }
 
-protected:
     void _InOrder(Node *root) {
         if (root == nullptr)
             return;
