@@ -6,6 +6,7 @@ struct TreeNode {
     }
 };
 
+//思路就是中序遍历找到最左的结点 然后进行链接左右，需要递归遍历链接
 class Solution {
 public:
     //中序递归

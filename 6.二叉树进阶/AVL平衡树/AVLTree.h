@@ -23,11 +23,13 @@ class AVLTree {
 public:
     typedef AVLTreeNode<K, V> Node;
     bool Insert(const pair<K, V> &kv) {
+        //空树就new一个
         if (_root == nullptr) {
             _root = new Node(kv);
             return true;
         }
 
+        //先查找
         Node *parent = nullptr;
         Node *cur = _root;
         while (cur) {
@@ -38,7 +40,7 @@ public:
                 parent = cur;
                 cur = cur->_left;
             } else {
-                // 相等则不插入
+                // 相等则不插入,
                 return false;
             }
         }
@@ -62,12 +64,13 @@ public:
         // 2、cur == parent->left   parent->bf--
 
         // 什么决定了是否继续往上更新祖先节点，取决于parent所在的子树高度是否变化？变了继续更新，不变则不再更新
-        // a、parent->bf==1 || parent->bf == -1   parent所在的字数变了，需要继续更新祖先节点
-        // b、parent->bf==2 || parent->bf == -1   parent所在的字数不平衡，需要处理这颗子树(旋转)
+        // a、parent->bf==1 || parent->bf == -1   parent所在的子树变了，需要继续更新祖先节点
+        // b、parent->bf==2 || parent->bf == -1   parent所在的子树不平衡，需要处理这颗子树(旋转)
         // c、parent->bf==0, parent所在的子树高度不变，不用继续网上更新。插入结束 为什么?
         //  说明插入前parent->bf==1 or -1，插入之前一边高，一边低。插入节点插入矮的那边，它的高度不变
 
         while (parent) {
+            //插入后,判断孩子插入到左边还是右边 进行++ --平衡因子
             if (cur == parent->_right) {
                 parent->_bf++;
             } else {
@@ -85,7 +88,8 @@ public:
                 // 需要旋转处理
                 // 当parent->bf == 2 && cur->bf == 1 右边高，需要左单旋
                 // 当parent->_bf == -2 && cur->_bf == -1 左边高，需要右单旋
-                // 当parent->_bf == -2 && cur->_bf == 1 左边高，
+                // 当parent->_bf == -2 && cur->_bf == 1 需要左右双旋转
+                // 当parent->_bf == 2 && cur->_bf == -1 需要右左双旋转
                 if (parent->_bf == 2 && cur->_bf == 1) {
                     RotateLeft(parent);
                 } else if (parent->_bf == -2 && cur->_bf == -1) {
@@ -125,10 +129,12 @@ private:
 
         return leftHeight > rightHeight ? leftHeight : rightHeight;
     }
+
     // 判断是否是平衡树
     bool _IsBalanace(Node *root) {
-        if (root == nullptr)
+        if (root == nullptr) {
             return true;
+        }
 
         int leftHeight = _Height(root->_left);
         int rightHeight = _Height(root->_right);
@@ -157,8 +163,10 @@ private:
 
         // 旋转链接
         parent->_right = subRL;
-        if (subRL)
+        // subRL不为nullptr
+        if (subRL) {
             subRL->_parent = parent;
+        }
 
         // 需要记录要旋转的树还有没有父亲
         Node *ppnode = parent->_parent;
@@ -185,18 +193,20 @@ private:
 
     // 右单旋
     void RotateRight(Node *parent) {
-        Node *subL = parent->_left;
-        Node *subLR = subL->_right;
+        Node *subL = parent->_left;//parent的左数
+        Node *subLR = subL->_right;//subL的右树
 
-        parent->_left = subLR;
-        if (subLR)
-            subLR->_parent = parent;
+        parent->_left = subLR;//将subLR的右数作为parent的左数
+        if (subLR) {
+            subLR->_parent = parent;//更新subLR的父亲
+        }
 
-        Node *ppnode = parent->_parent;
+        Node *ppnode = parent->_parent;//记录祖先结点
 
-        subL->_right = parent;
-        parent->_parent = subL;
+        subL->_right = parent; //subL的右数更新为parent
+        parent->_parent = subL;//更新parent的父亲
 
+        //祖先结点链接更新后的父亲(subL)
         if (ppnode == nullptr) {
             _root = subL;
             _root->_parent = nullptr;
@@ -208,6 +218,7 @@ private:
             }
             subL->_parent = ppnode;
         }
+        //更新平衡因子
         parent->_bf = subL->_bf = 0;
     }
 
@@ -221,6 +232,7 @@ private:
         RotateLeft(parent->_left);
         RotateRight(parent);
 
+        //更新平衡因子
         if (bf == 1) {
             parent->_bf = 0;
             subLR->_bf = 0;
@@ -244,10 +256,11 @@ private:
         Node *subRL = subR->_left;
 
         int bf = subRL->_bf;
-
+        //右单旋从parent->right开始旋转
         RotateRight(parent->_right);
         RotateLeft(parent);
 
+        //更新平衡因子
         if (bf == 1) {
             parent->_bf = -1;
             subRL->_bf = 0;
@@ -265,6 +278,25 @@ private:
         }
     }
 
+    Node *Find(const K &key) {
+        Node *cur = _root;
+        while (cur) {
+            //key值小于该结点的值
+            if (key < cur->_kv.first) {
+                //在该结点的左子树当中查找
+                cur = cur->_left;
+            } else if (key > cur->_kv.first) {
+                //key值大于该结点的值
+                cur = cur->_right;//在该结点的右子树当中查找
+            } else {
+                //找到了目标结点
+                return cur;//返回该结点
+            }
+        }
+        return nullptr;
+    }
+    
+    
 private:
     Node *_root = nullptr;
 };
