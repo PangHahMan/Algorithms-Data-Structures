@@ -1,5 +1,4 @@
-struct TreeNode
-{
+struct TreeNode {
     int val;
     TreeNode *left;
     TreeNode *right;
@@ -10,24 +9,20 @@ struct TreeNode
 
 #include <vector>
 using namespace std;
-class Solution
-{
+class Solution {
 public:
-    TreeNode *_buildTree(vector<int> &preorder, vector<int> &inorder, int &i, int inbegin, int inend)
-    {
-        if (inbegin > inend)
-        {
+    TreeNode *_buildTree(vector<int> &preorder, vector<int> &inorder, int &i, int inbegin, int inend) {
+        if (inbegin > inend) {
             return nullptr;
         }
         // 根据前序建立一个节点
         TreeNode *root = new TreeNode(preorder[i]);
         int rooti = inbegin;
         // 中序查找在前序的节点位置
-        while (inorder[rooti] != preorder[i])
-        {
+        while (inorder[rooti] != preorder[i]) {
             rooti++;
         }
-        //
+        
         i++;
         // 递归左右子树,分成两个区间[inbegin,rooti-1] rooti  [rooti+1,inend
 
@@ -38,8 +33,7 @@ public:
         return root;
     }
 
-    TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder)
-    {
+    TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
         // 根据preorder判断根节点
         int i = 0;
         return _buildTree(preorder, inorder, i, 0, inorder.size() - 1);
