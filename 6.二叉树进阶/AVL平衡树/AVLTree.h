@@ -1,5 +1,6 @@
 #pragma once
 #include <assert.h>
+#include <iostream>
 #include <utility>
 using namespace std;
 
@@ -119,7 +120,6 @@ public:
         return _Height(this->_root);
     }
 
-private:
     int _Height(Node *root) {
         if (root == nullptr)
             return 0;
@@ -147,6 +147,207 @@ private:
         return abs(leftHeight - rightHeight) < 2 && _IsBalanace(root->_left) && _IsBalanace(root->_right);
     }
 
+    bool Modify(const K &key, const V &value) {
+        Node *ret = Find(key);
+        //没找到key则返回false
+        if (ret == nullptr) {
+            return false;
+        }
+
+        ret->_kv.second = value;
+        return true;
+    }
+
+    bool Erase(const K &key) {
+        //遍历二叉树
+        Node *parent = nullptr;
+        Node *cur = _root;
+        //用于标记实际的删除结点及其父结点
+        Node *delParentPos = nullptr;
+        Node *delPos = nullptr;
+        //找key值
+        while (cur) {
+            if (key < cur->_kv.first) {
+                parent = cur;
+                cur = cur->_left;
+            } else if (key > cur->_kv.first) {
+                parent = cur;
+                cur = cur->_right;
+            } else {//找到待删除结点
+                //待删除结点的左子树为空
+                if (cur->_left == nullptr) {
+                    //待删除结点是根结点，让根结点的右子树作为新的根结点
+                    if (cur == _root) {
+                        _root = _root->_right;
+                        if (_root) {
+                            _root->_parent = nullptr;
+                        }
+                        delete cur;
+                    } else {
+                        //带删除结点不是根结点
+                        delParentPos = parent;//标记实际删除结点的父结点
+                        delPos = cur;         //标记实际删除的结点
+                    }
+                    break;                          ////跳出循环,之后更新平衡因子
+                } else if (cur->_right == nullptr) {//待删除结点的右子树为空
+                    //待删除结点是根结点,让根结点的左子树作为新的根结点
+                    if (cur == _root) {
+                        _root = _root->_left;
+                        if (_root) {
+                            _root->_parent = nullptr;
+                        }
+                        delete cur;
+                        return true;
+                    } else {
+                        //带删除结点不是根结点
+                        delParentPos = parent;
+                        delPos = cur;
+                    }
+                    break;//跳出循环,之后更新平衡因子
+                } else {  //待删除结点左右两边都不为空
+                    //使用替换法进行删除
+                    //找右子树中的最小结点成为待删除结点作为子树的根
+                    Node *minParent = cur;
+                    Node *minRight = cur->_right;
+                    //最小结点在最左边
+                    while (minRight->_left) {
+                        minParent = minRight;
+                        minRight = minRight->_left;
+                    }
+
+                    //更新待删除结点
+                    cur->_kv.first = minRight->_kv.first;
+                    cur->_kv.second = minRight->_kv.second;
+                    //更新待删除的结点，此时待删除的结点就是minRight
+                    delParentPos = minParent;
+                    delPos = minRight;
+                    //跳出循环,更新平衡因子
+                    break;
+                }
+            }
+        }
+
+        //key值不对，走到了nullptr,还没有找到key，说明要找的key不存在,返回false
+        if (delPos == nullptr) {
+            //删除结点没有修改过,则返回false
+            return false;
+        }
+
+        //记录待删除结点及其父结点（用于后续实际删除）
+        Node *del = delPos;
+        Node *delParent = delParentPos;
+
+        //更新平衡因子
+        //待删除的结点不是根
+        while (delPos != _root) {
+            //删除结点在父结点左边需要++，在右边需要--
+            if (delPos == delParentPos->_left) {
+                delParentPos->_bf++;
+            } else if (delPos == delParent->_right) {
+                delParentPos->_bf--;
+            }
+
+            //判断是否更新结束或需要进行旋转
+            //_bf == 0 需要向上更新
+            //_bf == -1/1 不需要更新
+            //_bf == -2/2 需要旋转
+            if (delParentPos->_bf == 0) {
+                //delParentPos树的高度变化，会影响其父结点的平衡因子，需要继续往上更新平衡因子
+                delPos = delParentPos;
+                delParentPos = delParentPos->_parent;
+            } else if (delParentPos->_bf == -1 || delParentPos->_bf == 1) {
+                //delParent树的高度没有发生变化，不会影响其父结点及以上结点的平衡因子
+                break;
+            } else if (delParentPos->_bf == -2 || delParentPos->_bf == 2) {
+                //6种旋转
+                if (delParentPos->_bf == -2) {
+                    if (delParentPos->_left->_bf == -1) {
+                        Node *tmp = delParentPos->_left;//记录delParentPos右旋转后新的根结点
+                        RotateRight(delParentPos);      //右单旋
+                        delParentPos = tmp;             //更新根结点
+                    } else if (delParentPos->_left->_bf == 1) {
+                        Node *tmp = delParentPos->_left->_right;//记录delParentPos左右双旋后新的根结点
+                        RotateLR(delParentPos);                 //左右双旋
+                        delParentPos = tmp;
+                    } else {
+                        Node *tmp = delParentPos->_left;
+                        RotateRight(delParentPos);//右单旋
+                        delParentPos = tmp;       //更新根结点
+
+                        //平衡因子调整
+                        delParentPos->_bf = 1;
+                        delParentPos->_right->_bf = -1;
+                        break;
+                    }
+                } else if (delParentPos->_bf == 2) {
+                    if (delParentPos->_right->_bf = -1) {
+                        Node *tmp = delParentPos->_right->_left;//记录delParentPos右左旋转后新的根结点
+                        RotateRL(delParentPos);                 //右左双旋
+                        delParentPos = tmp;
+                    } else if (delParentPos->_right->_bf == 1) {
+                        Node *tmp = delParentPos->_right;//记录delParentPos左旋转后新的根结点
+                        RotateLeft(delParentPos);        //左旋转
+                        delParentPos = tmp;
+                    } else {//bf==0
+                        Node *tmp = delParentPos->_right;
+                        RotateLeft(delParentPos);
+                        delParentPos = tmp;
+
+                        //更新平衡因子
+                        delParentPos->_bf = -1;
+                        delParentPos->_bf = 1;
+                        break;
+                    }
+                }
+                //旋转后delParentPos树的高度变化，会影响其父结点的平衡因子，需要继续往上更新平衡因子
+                delPos = delParentPos;
+                delParentPos = delParentPos->_parent;
+            } else {
+                //在删除前树的平衡因子就有问题
+                assert(false);
+            }
+        }
+
+        //进行实际删除
+        if (del->_left == nullptr) {      //实际删除结点的左子树为空
+            if (del == delParent->_left) {//实际删除结点是其父结点的左孩子
+                //让父亲的左孩子指向被删除结点的有孩子
+                delParent->_left = del->_right;
+                //如果有孩子不为空,绑定右孩子的父亲
+                if (del->_right) {
+                    del->_right->_parent = delParent;
+                }
+            } else {//实际删除结点是其父结点的右孩子
+                //直接领养被删除结点的右孩子,右孩子不为空则绑定父亲
+                delParent->_right = del->_right;
+                if (del->_right) {
+                    del->_right->_parent = delParent;
+                }
+            }
+        } else {//实际删除结点的右子树为
+            //实际删除结点是其父结点的左孩子
+            if (del == delParent->_left) {
+                //被删除结点父亲领养被删除结点的左孩子
+                delParent->_left = del->_left;
+                //绑定父亲
+                if (del->_left) {
+                    del->_left->_parent = delParent;
+                }
+
+            } else {//实际删除结点是其父结点的右孩子
+                //领养被删除结点左孩子,并绑定父亲
+                delParent->_right = del->_left;
+                if (del->_left) {
+                    del->_left->_parent = delParent;
+                }
+            }
+        }
+        delete del;
+
+        return true;
+    }
+
+private:
     void _InOrder(Node *root) {
         if (root == nullptr) {
             return;
@@ -295,8 +496,8 @@ private:
         }
         return nullptr;
     }
-    
-    
+
+
 private:
     Node *_root = nullptr;
 };

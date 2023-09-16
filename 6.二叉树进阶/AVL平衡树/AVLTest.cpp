@@ -16,6 +16,7 @@ void Test_AVLTree1() {
         cout << e << "插入:" << t1.IsBalanace() << endl;// 为了测试插入哪个异常所以加上了打印
                                                         // 屏蔽右左旋转的平衡因子更新观察现象
     }
+    t1.Erase(1);
     t1.InOrder();
     cout << t1.IsBalanace() << endl;
 }
