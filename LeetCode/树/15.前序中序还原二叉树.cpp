@@ -26,7 +26,7 @@ public:
     //begin end 表示中序中的位置
     TreeNode *_buildTree(vector<int> &preorder, vector<int> &inorder, int &i, int begin, int end) {
         //递归结束条件
-        if(begin > end){
+        if(begin > end || i > inorder.size()){
             return nullptr;
         }
         
