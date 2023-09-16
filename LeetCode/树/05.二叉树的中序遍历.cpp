@@ -14,6 +14,7 @@
 输出：[1]
 */
 
+#include <stack>
 #include <vector>
 using namespace std;
 struct TreeNode {
@@ -44,4 +45,31 @@ public:
     }
 };
 
+
+//非递归版本
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode *root) {
+        vector<int> v;
+        TreeNode *cur = root;
+        if (!cur) {
+            return v;
+        }
+
+        stack<TreeNode *> st;
+        while (!st.empty() || cur) {
+            //中序遍历,先push左子树
+            while (cur) {
+                st.push(cur);
+                cur = cur->left;
+            }
+            TreeNode *top = st.top();
+            st.pop();
+            v.push_back(top->val);
+            
+            cur = top->right;
+        }
+        return v;
+    }
+};
 //https://leetcode.cn/problems/binary-tree-inorder-traversal/description/
