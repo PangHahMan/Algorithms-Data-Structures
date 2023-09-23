@@ -31,31 +31,29 @@ using namespace std;
 int main() {
     int n = 0;
     cin >> n;
-    vector<int> arr;
+    vector<int> v;
     // 注意这里多给了一个值，是处理越界的情况的比较，具体参考上面的解题思路
-    arr.resize(n + 1);
-    arr[n] = 0;
+    v.resize(n + 1);
+    v[n] = 0;
     for (int i = 0; i < n; i++) {
-        cin >> arr[i];
+        cin >> v[i];
     }
 
     int i = 0;
     int count = 0;
-    while (i < n) {
-        // 非递减子序列
-        if (arr[i] < arr[i + 1]) {
-            while (arr[i] <= arr[i + 1] && i < n - 1) {
+    for (int i = 0; i < n; i++) {// i的增加由while循环控制
+        //非递减子序列
+        if (v[i] < v[i + 1]) {
+            while (i < n - 1 && v[i] <= v[i + 1]) {
                 i++;
             }
             count++;
-            i++;
-        } else if (arr[i] == arr[i + 1]) {
-            i++;
-        } else {// 非递增子序列
-            while (arr[i] >= arr[i + 1] && i < n - 1) {
+        } else if (v[i] == v[i + 1]) {//非递增子序列
+            continue;
+        } else {//非递增子序列
+            while (i < n - 1 && v[i] >= v[i + 1]) {
                 i++;
             }
-            i++;
             count++;
         }
     }

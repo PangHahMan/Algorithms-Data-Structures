@@ -5,7 +5,6 @@
 #include <vector>
 using namespace std;
 
-
 template<size_t N>//非类型模板参数 N，它的类型是 size_t
 class bitset {
 public:
