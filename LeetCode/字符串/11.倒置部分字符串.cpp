@@ -27,6 +27,7 @@ using namespace std;
 
 int main() {
     string str;
+
     getline(cin, str);
     //翻转句子
     reverse(str.begin(), str.end());
