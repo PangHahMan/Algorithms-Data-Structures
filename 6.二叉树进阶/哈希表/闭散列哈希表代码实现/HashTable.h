@@ -1,5 +1,4 @@
 #pragma once
-
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -24,31 +23,6 @@ public:
         if (Find(kv.first)) {
             return false;
         }
-        // 负载因子超过0.7就扩容：这是自己规定
-        //        if (_tables.size() == 0 || _n * 10 / _tables.size() >= 7) {   //这里因为是0.7是double，所以换了一种写法
-        //            size_t newsize = _tables.size() == 0 ? 10 : _tables.size() * 2;
-        //            vector<HashData<K,V>> newtables(newsize);
-        //            //遍历旧表，重新映射到新表
-        //            size_t hashi = kv.first % newtables.size();
-        //            for(auto& data:_tables){
-        //                if(data._state == EXITS){
-        //                    //重新算在新表的位置
-        //                    size_t i = 1;
-        //                    size_t index = hashi;
-        //                    while (newtables[index]._state == EXITS) {
-        //                        index = hashi + i;
-        //                        index %= newtables.size();   //防止index越界，绕回去
-        //                        i++;
-        //                    }
-        //
-        //                    newtables[index]._kv = kv;
-        //                    newtables[index]._state = EXITS;
-        //                }
-        //            }
-        //            _tables.swap(newtables);  //交换指针
-        //        }
-
-        // 修改上述扩容代码，使之不冗余
         // 负载因子 = 表中有效数据个数 / 空间的大小
         if (_tables.size() == 0 || _n * 10 / _tables.size() >= 7) {
             //扩容两倍
