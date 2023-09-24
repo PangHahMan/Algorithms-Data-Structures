@@ -1,5 +1,4 @@
 #pragma once
-
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
@@ -11,10 +10,8 @@ struct HashNode {
     HashNode<K, V> *_next;
     pair<K, V> _kv;
 
-    HashNode(const pair<K, V> &kv) {
-        this->_kv = kv;
-        this->_next = nullptr;
-    }
+    HashNode(const pair<K, V> &kv)
+        : _kv(kv), _next(nullptr) {}
 };
 
 template<class K>
@@ -73,18 +70,23 @@ public:
     bool Erase(const K &key) {
         Hash hash;
         size_t hashi = hash(key) % this->_tables.size();
+        //删除的时候需要找到前一个节点和后一个节点进行链接
         Node *prev = nullptr;
-        Node *cur = this->_tables[hashi];
+        Node *cur = this->_tables[hashi];//cur初始为头结点
+        //遍历单链表
         while (cur) {
             if (cur->_kv.first == key) {
                 if (prev == nullptr) {
+                    //要找的结点就是头结点则直接更新头
                     this->_tables[hashi] = cur->_next;
                 } else {
+                    //链接
                     prev->_next = cur->_next;
                 }
                 delete cur;
                 return true;
             } else {
+                //更新prev和cur
                 prev = cur;
                 cur = cur->_next;
             }
