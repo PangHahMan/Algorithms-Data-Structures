@@ -43,6 +43,7 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "map": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "unordered_set": "cpp"
     }
 }
