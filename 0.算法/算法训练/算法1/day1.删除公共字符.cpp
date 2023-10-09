@@ -43,3 +43,5 @@ int main() {
     cout << ret << endl;
 }
 // 64 位输出请用 printf("%lld")
+
+//https://www.nowcoder.com/practice/f0db4c36573d459cae44ac90b90c6212?tpId=85&&tqId=29868&rp=1&ru=/activity/oj&qru=/ta/2017test/question-ranking
