@@ -48,6 +48,7 @@ public:
 
         return nullptr;
     }
+    
     bool Insert(const pair<K, V> &kv) {
         //1.查找值
         if (Find(kv.first)) {
@@ -93,6 +94,7 @@ public:
 
         return true;
     }
+    
     bool Erase(const K &key) {
         HashData<K, V> *ret = Find(key);
         if (ret) {
