@@ -49,3 +49,5 @@ public:
         return _buildTree(postorder, inorder, index, 0, inorder.size() - 1);
     }
 };
+
+//https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/description/
