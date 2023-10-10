@@ -39,24 +39,22 @@ int main() {
         cin >> arr[i];
     }
 
-    int i = 0;
     int count = 0;
-    while (i < n) {
-        // 非递减子序列
-        if (arr[i] < arr[i + 1]) {
-            while (arr[i] <= arr[i + 1] && i < n - 1) {
+    for (int i = 0; i < arr.size() - 1; i++) {
+        //非递减
+        if (i < arr.size() - 1 && arr[i] < arr[i + 1]) {
+            while (i < arr.size() - 1 && arr[i] < arr[i + 1]) {
                 i++;
             }
             count++;
-            i++;
-        } else if (arr[i] == arr[i + 1]) {
-            i++;
-        } else {// 非递增子序列
-            while (arr[i] >= arr[i + 1] && i < n - 1) {
+        } else if (i < arr.size() - 1 && arr[i] > arr[i + 1]) {
+            //非递增
+            while (i < arr.size() - 1 && arr[i] > arr[i + 1]) {
                 i++;
             }
-            i++;
             count++;
+        } else {
+            continue;
         }
     }
     cout << count << endl;
