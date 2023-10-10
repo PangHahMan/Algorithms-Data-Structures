@@ -30,9 +30,9 @@ public:
         // 还原根节点
         TreeNode *pRoot = new TreeNode(postorder[index]);
         // 在中序遍历结果中找根节点的位置，根节点左侧是是根的左子树，右侧的节点是根的右子树
-        int rooti = begin;
+        int rooti = end;
         while (inorder[rooti] != postorder[index]) {
-            rooti++;
+            rooti--;
         }
         //找到了根节点在中序的位置,可以划分左右子树了
         index--;

@@ -48,7 +48,7 @@ public:
 
     TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
         //可以通过前序来判断根结点
-        int i = 0;
+        int i = 0;  //i表示前序的位置
         return _buildTree(preorder, inorder, i, 0, inorder.size() - 1);
     }
 };
