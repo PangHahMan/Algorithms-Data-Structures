@@ -32,7 +32,7 @@ public:
             front = front->next;
             k--;
         }
-
+    
         if (k > 0) {
             return nullptr;
         }
