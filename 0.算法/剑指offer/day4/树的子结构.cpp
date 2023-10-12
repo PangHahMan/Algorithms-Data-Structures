@@ -54,7 +54,7 @@ public:
         if (isSubTree(pRoot1, pRoot2))
             return true;
 
-        //递归左右子树
+        //递归左右子树,子树有一个为真，就是子结构
         return HasSubtree(pRoot1->left, pRoot2) || HasSubtree(pRoot1->right, pRoot2);
     }
 };

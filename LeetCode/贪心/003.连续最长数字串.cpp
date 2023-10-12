@@ -8,22 +8,22 @@ using namespace std;
 
 int main() {
     string str, cur, ret;
-    cin >> str;
-    for (int i = 0; i <= str.length(); i++) {
-        //注意这里的结束条件i <= str.length(),为了防止最长数字串在最后而没有进入循环，导致没有判断，当然也可以在for循环结束在判断一次ret.size和cur.size
-        // 数字+=到cur
-        if (str[i] >= '0' && str[i] <= '9') {
-            cur += str[i];
-        } else {
-            // 找出更长的字符串，则更新字符串
+    while (getline(cin, str)) {
+        for (int i = 0; i < str.size(); i++) {
+            //追加数字串
+            while (str[i] >= '0' && str[i] <= '9') {
+                cur += str[i++];
+            }
+            //更新最长数字串
             if (cur.size() > ret.size()) {
                 ret = cur;
-            } else {
-                cur.clear();
             }
+            //清空cur,寻找下一个数字串
+            cur.clear();
         }
+
+        cout << ret << endl;
     }
-    cout << ret << endl;
     return 0;
 }
 //https://www.nowcoder.com/practice/bd891093881d4ddf9e56e7cc8416562d?tpId=85&&tqId=29864&rp=1&ru=/activity/oj&qru=/ta/2017test/question-ranking
