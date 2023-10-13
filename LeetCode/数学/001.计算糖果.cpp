@@ -22,7 +22,6 @@ A - B, B - C, A + B, B + C. 这四个数值.每个字母代表每个人所拥有
 2+4可以得到B2=(b+d)/2，3-1可以得到B1=(c-a)/2；
 如果B1不等B2则表达式无解 */
 
-
 #include <iostream>
 using namespace std;
 int main() {
