@@ -35,16 +35,14 @@ public:
         int flag = 1;
         if (str[0] == '-') {
             flag = -1;
-            str[0] = '0';
-        } else if (str[0] == '+') {
-            flag = 1;
-            str[0] = '0';//为了处理第一个数既没有正号也不是负号，置为0不影响结果
         }
 
         long long sum = 0;
         for (int i = 0; i < str.size(); i++) {
             if (str[i] >= '0' && str[i] <= '9') {
                 sum = sum * 10 + str[i] - '0';//str[i] - '0'  将字符串转换成数字
+            } else if (str[i] == '-' || str[i] == '+') {
+                continue;
             } else {
                 sum = 0;
                 break;
