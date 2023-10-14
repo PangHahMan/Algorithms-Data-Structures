@@ -6,8 +6,6 @@
 -1 2 1
 输出：3
 */
-
-
 #include <iostream>
 #include <vector>
 using namespace std;
