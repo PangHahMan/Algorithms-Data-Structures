@@ -70,6 +70,4 @@ public:
         return result;
     }
 };
-
-
 //https://www.nowcoder.com/practice/b736e784e3e34731af99065031301bca?
