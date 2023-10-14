@@ -23,8 +23,9 @@ bool IsCircleText(const string &s) {
     size_t begin = 0;
     size_t end = s.size() - 1;
     while (begin < end) {
-        if (s[begin] != s[end])
+        if (s[begin] != s[end]){
             return false;
+        }
         ++begin;
         --end;
     }
