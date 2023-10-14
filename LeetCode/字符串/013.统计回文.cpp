@@ -14,8 +14,6 @@ A = “aba”，B = “b”。这里有4种把B插入A的办法：
 b
 输出：2
 */
-
-
 #include <iostream>
 #include <string>
 using namespace std;
