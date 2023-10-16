@@ -11,14 +11,16 @@ public:
         if (left >= right) {
             return true;
         }
-
+        //记录根节点
         int root = sequence[right];
         int i = left;
+        //寻找根的左子树,找中间值
         while (i < right && sequence[i] < root) {
             i++;
         }
 
         int mid = i;
+        //从这里开始就是右子树了，只要右子树的节点一直大于根，直到i和right相等，说明右子树的节点的值都大于根，就可以证明是一个二叉搜索树
         while (i < right && sequence[i] > root) {
             i++;
         }
