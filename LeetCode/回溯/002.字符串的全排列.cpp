@@ -75,37 +75,51 @@ public:
 //思路2 ：交换
 class Solution {
 public:
+    // 交换字符串中的两个字符
     void swap(string &str, int i, int j) {
         char temp = str[i];
         str[i] = str[j];
         str[j] = temp;
     }
 
+    // 递归生成所有排列
     void _Permutation(string &str, int start, set<string> &result) {
+        // 当start达到字符串的最后位置，我们找到了一个新的排列，插入到结果集合中
         if (start == str.size() - 1) {
             result.insert(str);
             return;
         }
 
+        // 将start位置的字符与后面的每一个字符交换，并递归生成排列
         for (int i = start; i < str.size(); i++) {
-            swap(str, start, i);
-            _Permutation(str, start + 1, result);
-            swap(str, start, i);
+            /* 
+            1.首先，swap(str, start, i)将起始位置的字符（即第start个字符）与后面的字符（即第i个字符）进行交换，这样就在字符串的起始位置得到一个新的字符，也就得到了字符串的一个新的排列。
+            2.然后，调用_Permutation(str, start + 1, result)进行递归，生成以这个新的字符开头的所有排列。注意这里的递归是在start + 1位置开始的，也就是说，固定了前start个字符，然后对剩余的字符进行全排列。
+            3.最后，swap(str, start, i)将字符换回来，也就是恢复了原来的字符串。这是因为在递归调用结束后，我们需要恢复原来的字符串，以确保在下一次循环中，当i增加时，我们仍然是在原来的字符串上进行操作，而不是在已经被修改过的字符串上进行操作。这种技术称为“回溯”。
+             */
+            swap(str, start, i);                 // 交换字符
+            _Permutation(str, start + 1, result);// 递归生成排列
+            swap(str, start, i);                 // 回溯，恢复原字符串
         }
     }
 
+    // 主函数，生成字符串的所有排列
     vector<string> Permutation(string str) {
+        // 使用set存储结果，自动去重并排序
         set<string> result_set;
         if (str.empty()) {
             return {};
         }
 
+        // 从第一个字符开始生成排列
         _Permutation(str, 0, result_set);
 
+        // 将set转为vector并返回
         vector<string> result(result_set.begin(), result_set.end());
 
         return result;
     }
 };
+
 
 //https://www.nowcoder.com/practice/fe6b651b66ae47d7acce78ffdd9a96c7?
