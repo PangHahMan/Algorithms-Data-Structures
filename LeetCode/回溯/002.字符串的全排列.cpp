@@ -24,9 +24,11 @@
 
 
 #include <algorithm>
+#include <set>
 #include <string>
 #include <vector>
 using namespace std;
+//思路1
 class Solution {
 public:
     void helper(string &str, vector<string> &res, string &cur, vector<int> &visited) {
@@ -38,14 +40,14 @@ public:
         // 遍历输入字符串的每个字符
         for (int i = 0; i < str.size(); i++) {
             // 如果当前字符已被访问过，跳过此次循环
-            if (visited[i] == 1){
+            if (visited[i] == 1) {
                 continue;
-            } 
+            }
             // 如果当前字符和前一个字符相同，并且前一个字符还未被访问过，跳过此次循环
             // 这是为了去除重复解
-            if (i > 0 && str[i] == str[i - 1] && visited[i - 1] == 0){
+            if (i > 0 && str[i] == str[i - 1] && visited[i - 1] == 0) {
                 continue;
-            } 
+            }
             visited[i] = 1;                // 标记当前字符已被访问
             cur.push_back(str[i]);         // 将当前字符添加到当前排列结果中
             helper(str, res, cur, visited);// 递归调用，进行下一层搜索
@@ -55,8 +57,8 @@ public:
     }
 
     vector<string> Permutation(string str) {
-        // 如果输入字符串为空，直接返回空集 ? 
-        if (str.empty()){
+        // 如果输入字符串为空，直接返回空集 ?
+        if (str.empty()) {
             return {};
         }
 
@@ -66,6 +68,43 @@ public:
         sort(str.begin(), str.end());      // 将输入字符串排序，为了去除重复解
         helper(str, res, cur, visited);    // 调用回溯搜索函数
         return res;                        // 返回所有排列结果
+    }
+};
+
+
+//思路2 ：交换
+class Solution {
+public:
+    void swap(string &str, int i, int j) {
+        char temp = str[i];
+        str[i] = str[j];
+        str[j] = temp;
+    }
+
+    void _Permutation(string &str, int start, set<string> &result) {
+        if (start == str.size() - 1) {
+            result.insert(str);
+            return;
+        }
+
+        for (int i = start; i < str.size(); i++) {
+            swap(str, start, i);
+            _Permutation(str, start + 1, result);
+            swap(str, start, i);
+        }
+    }
+
+    vector<string> Permutation(string str) {
+        set<string> result_set;
+        if (str.empty()) {
+            return {};
+        }
+
+        _Permutation(str, 0, result_set);
+
+        vector<string> result(result_set.begin(), result_set.end());
+
+        return result;
     }
 };
 
