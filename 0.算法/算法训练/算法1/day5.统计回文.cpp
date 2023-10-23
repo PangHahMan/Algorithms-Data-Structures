@@ -15,7 +15,6 @@ b
 输出：2
 */
 
-
 #include <iostream>
 #include <string>
 using namespace std;
