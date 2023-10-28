@@ -27,7 +27,7 @@ public:
         vector<bool> dp(s.size() + 1, false);  //定义dp数组
         dp[0] = true;  //初始化状态
         //初始状态在0下标，所以我们从1下标开始遍历，每次遍历i下标总是比j大1
-        for (int i = 1; i <= s.size(); i++) {
+        for (int i = 1; i <= s.size(); i++) {      
             //遍历字符串s的每一个字符序列是否在字典中
             for (int j = 0; j < i; j++) {
                 //这里从0位置开始找。
