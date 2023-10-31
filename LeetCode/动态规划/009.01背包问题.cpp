@@ -58,6 +58,8 @@ public:
     int backPackII(int m, vector<int> &a, vector<int> &v) {
         int n = a.size();
         vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+        
+        //i表示的是商品的个数，j表示的是背包的容量设置
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= m; j++) {
                 if (j < a[i - 1]) {

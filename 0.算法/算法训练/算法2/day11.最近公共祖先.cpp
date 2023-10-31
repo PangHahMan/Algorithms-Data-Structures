@@ -19,3 +19,19 @@ public:
     }
 };
 
+//思路2
+class LCA {
+public:
+    int getLCA(int a, int b) {
+        while (a != b) {
+            if (a > b) {
+                a /= 2;
+            } else {
+                b /= 2;
+            }
+        }
+
+        return a;
+    }
+};
+//https://www.nowcoder.com/practice/70e00e490b454006976c1fdf47f155d9?tpId=8&&tqId=11017&rp=1&ru=/activity/oj&qru=/ta/cracking-the-coding-interview/question-ranking
