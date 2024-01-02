@@ -10,45 +10,49 @@
 示例 2：
 输入：arr = [1,2,3]
 输出：[1,2,3]
-解释：调用函数后，输入的数组将被修改为：[1,2,3] 
+解释：调用函数后，输入的数组将被修改为：[1,2,3]
 */
 
 #include <vector>
 using namespace std;
-class Solution {
+class Solution
+{
 public:
-    void duplicateZeros(vector<int> &arr) {
-        int cur = 0, dest = -1;
+    void duplicateZeros(vector<int> &arr)
+    {
         int n = arr.size();
-        while (cur < n) {
-            if (arr[cur]) {
-                dest++;
-            } else {
-                dest += 2;
+        int zeroCount = 0;
+
+        // 首先计算我们需要复写的零的个数
+        for (int i = 0; i < n; i++)
+        {
+            if (arr[i] == 0)
+            {
+                zeroCount++;
             }
-            if (dest >= n - 1) {
-                break;
-            }
-            cur++;
         }
 
-        /* dest等于n表示在最后一次增加dest时，我们是因为原数组的cur位置是零而增加了2。这意味着原数组的最后一个零是无法复制的，因为它会超出数组末尾。所以，我们要做的是：
-        1.将原数组的最后一个位置设为零。
-        2.cur需要回退一个位置，因为我们不需要再复制这个无法复制的最后一个零。
-        3.dest需要减去2，一是因为最后一个零不复制，二是回退到倒数第二个应该复制的位置上。 */
-        if (dest == n) {
-            arr[n - 1] = 0;  
-            cur--;
-            dest -= 2;
-        }
-
-        while (cur >= 0) {
-            if (arr[cur]) {
-                arr[dest--] = arr[cur--];
-            } else {
-                arr[dest--] = 0;
-                arr[dest--] = 0;
-                cur--;
+        // 从后向前复写零，同时考虑数组边界
+        for (int i = n - 1, j = n + zeroCount - 1; i < j; i--, j--)
+        {
+            if (arr[i] != 0)
+            {
+                if (j < n)
+                {
+                    arr[j] = arr[i];
+                } // 只有当j在数组边界内时才复制
+            }
+            else
+            {
+                if (j < n)
+                {
+                    arr[j] = arr[i];
+                } // 复制零
+                j--;
+                if (j < n)
+                {
+                    arr[j] = arr[i];
+                } // 复制零第二次
             }
         }
     }
