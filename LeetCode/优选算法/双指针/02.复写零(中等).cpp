@@ -15,44 +15,33 @@
 
 #include <vector>
 using namespace std;
-class Solution
-{
+class Solution {
 public:
-    void duplicateZeros(vector<int> &arr)
-    {
+    void duplicateZeros(vector<int> &arr) {
         int n = arr.size();
         int zeroCount = 0;
 
         // 首先计算我们需要复写的零的个数
-        for (int i = 0; i < n; i++)
-        {
-            if (arr[i] == 0)
-            {
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == 0) {
                 zeroCount++;
             }
         }
 
         // 从后向前复写零，同时考虑数组边界
-        for (int i = n - 1, j = n + zeroCount - 1; i < j; i--, j--)
-        {
-            if (arr[i] != 0)
-            {
-                if (j < n)
-                {
+        for (int i = n - 1, j = n + zeroCount - 1; i < j; i--, j--) {
+            if (arr[i] != 0) {
+                if (j < n) {
                     arr[j] = arr[i];
-                } // 只有当j在数组边界内时才复制
-            }
-            else
-            {
-                if (j < n)
-                {
+                }// 只有当j在数组边界内时才复制
+            } else {
+                if (j < n) {
                     arr[j] = arr[i];
-                } // 复制零
+                }// 复制零
                 j--;
-                if (j < n)
-                {
+                if (j < n) {
                     arr[j] = arr[i];
-                } // 复制零第二次
+                }// 复制零第二次
             }
         }
     }
