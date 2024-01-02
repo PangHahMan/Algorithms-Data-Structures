@@ -32,16 +32,16 @@ public:
         for (int i = n - 1, j = n + zeroCount - 1; i < j; i--, j--) {
             if (arr[i] != 0) {
                 if (j < n) {
-                    arr[j] = arr[i];
-                }// 只有当j在数组边界内时才复制
+                    arr[j] = arr[i];// 只有当j在数组边界内时才复制
+                }
             } else {
                 if (j < n) {
                     arr[j] = arr[i];
                 }// 复制零
                 j--;
                 if (j < n) {
-                    arr[j] = arr[i];
-                }// 复制零第二次
+                    arr[j] = arr[i]; // 复制零第二次
+                }
             }
         }
     }
