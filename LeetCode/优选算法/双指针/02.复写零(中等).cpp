@@ -40,7 +40,7 @@ public:
                 }// 复制零
                 j--;
                 if (j < n) {
-                    arr[j] = arr[i]; // 复制零第二次
+                    arr[j] = arr[i];// 复制零第二次
                 }
             }
         }
