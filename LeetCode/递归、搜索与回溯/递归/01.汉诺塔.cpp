@@ -15,7 +15,7 @@
 输出：C = [1, 0]
 */
 
-#include<vector>
+#include <vector>
 using namespace std;
 class Solution {
     void move(vector<int> &A, vector<int> &B, vector<int> &C, int n) {
